@@ -11,6 +11,7 @@
 
   <modules>
     <module>quarkus-telemetry</module>
+    <module>spring-boot-telemetry</module>
   </modules>
 
   <properties>
