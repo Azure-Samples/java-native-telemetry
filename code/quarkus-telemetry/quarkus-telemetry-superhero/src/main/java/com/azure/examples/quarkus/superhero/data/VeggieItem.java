@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @Builder
-public class LegumeItem {
+public class VeggieItem {
 
     private String id;
 

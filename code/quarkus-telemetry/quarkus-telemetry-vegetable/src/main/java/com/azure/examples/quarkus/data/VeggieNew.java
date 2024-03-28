@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"name"})
 @Builder
-public class LegumeNew {
+public class VeggieNew {
 
   private String name;
 
