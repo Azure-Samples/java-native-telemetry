@@ -21,7 +21,7 @@ class SuperHeroCreatorTest {
 
         given()
                 .body("carrot")
-                .when().post("/heroes/legume")
+                .when().post("/heroes/veggie")
                 .then()
                 .statusCode(201);
 

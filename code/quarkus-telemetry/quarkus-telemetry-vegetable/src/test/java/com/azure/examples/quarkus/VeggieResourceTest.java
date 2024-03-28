@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
 @QuarkusTest
-public class LegumeResourceTest {
+public class VeggieResourceTest {
 
     private static final int PORT = 9000;  // The port for the other service
     private static final String BASE_URL = "http://localhost:" + PORT;
@@ -32,7 +32,7 @@ public class LegumeResourceTest {
         WireMock.configureFor("localhost", wireMockServer.port());
 
         // Stub the POST endpoint
-        stubFor(post(urlEqualTo("/heroes/legume"))
+        stubFor(post(urlEqualTo("/heroes/veggie"))
                 .withRequestBody(matching("\\b(?:Carrot|Zucchini)\\b")) // regex to match either Carrot or Zucchini
                 .willReturn(aResponse()
                         .withStatus(201)
@@ -48,12 +48,12 @@ public class LegumeResourceTest {
     public void testProvisionAndList() {
         given()
                 .header("Content-Type", "application/json; encoding=utf8; charset=utf8")
-                .when().post("/legumes/init")
+                .when().post("/veggies/init")
                 .then()
                 .statusCode(201);
 
         given()
-                .when().get("/legumes")
+                .when().get("/veggies")
                 .then()
                 .log().all()
                 .statusCode(200)

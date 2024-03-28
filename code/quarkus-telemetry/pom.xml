@@ -26,7 +26,7 @@
   </dependencyManagement>
 
   <modules>
-    <module>quarkus-telemetry-legume</module>
+    <module>quarkus-telemetry-vegetable</module>
     <module>quarkus-telemetry-superhero</module>
   </modules>
 

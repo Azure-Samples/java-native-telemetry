@@ -18,7 +18,7 @@ import jakarta.persistence.Id;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @Builder
-public class Legume {
+public class Veggie {
 
     @Id
     @GeneratedValue(generator = "system-uuid")

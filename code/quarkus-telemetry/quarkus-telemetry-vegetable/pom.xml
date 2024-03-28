@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>quarkus-telemetry-legume</artifactId>
+  <artifactId>quarkus-telemetry-vegetable</artifactId>
 
   <dependencies>
     <dependency>
@@ -23,11 +23,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkiverse.micrometer.registry</groupId>
-      <artifactId>quarkus-micrometer-registry-otlp</artifactId>
-      <version>${quarkus-micrometer-registry-otlp.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

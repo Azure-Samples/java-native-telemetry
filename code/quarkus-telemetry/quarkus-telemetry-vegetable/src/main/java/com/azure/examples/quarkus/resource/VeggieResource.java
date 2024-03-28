@@ -2,9 +2,9 @@ package com.azure.examples.quarkus.resource;
 
 
 import com.azure.examples.quarkus.client.SuperHeroClient;
-import com.azure.examples.quarkus.data.LegumeItem;
-import com.azure.examples.quarkus.data.LegumeNew;
-import com.azure.examples.quarkus.model.Legume;
+import com.azure.examples.quarkus.data.VeggieItem;
+import com.azure.examples.quarkus.data.VeggieNew;
+import com.azure.examples.quarkus.model.Veggie;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -30,12 +30,12 @@ import static jakarta.ws.rs.core.Response.Status.CREATED;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static jakarta.ws.rs.core.Response.Status.NO_CONTENT;
 
-@Path("/legumes")
+@Path("/veggies")
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
 @ApplicationScoped
 @Slf4j
-public class LegumeResource {
+public class VeggieResource {
 
   @Inject
   EntityManager manager;
@@ -49,11 +49,11 @@ public class LegumeResource {
   @POST
   @Path("/init")
   public Response provision() {
-    final LegumeNew carrot = LegumeNew.builder()
+    final VeggieNew carrot = VeggieNew.builder()
       .name("Carrot")
       .description("Root vegetable, usually orange")
       .build();
-    final LegumeNew zucchini = LegumeNew.builder()
+    final VeggieNew zucchini = VeggieNew.builder()
       .name("Zucchini")
       .description("Summer squash")
       .build();
@@ -64,53 +64,53 @@ public class LegumeResource {
 
   @POST
   @Transactional
-  public Response add(final LegumeNew legumeNew) {
-    return Response.status(CREATED).entity(addLegume(legumeNew)).build();
+  public Response add(final VeggieNew veggieNew) {
+    return Response.status(CREATED).entity(addVeggie(veggieNew)).build();
   }
 
   @DELETE
   @Path("{id}")
   @Transactional
-  public Response delete(final String legumeId) {
-    return find(legumeId)
-      .map(legume -> {
-        manager.remove(legume);
+  public Response delete(final String veggieId) {
+    return find(veggieId)
+      .map(veggie -> {
+        manager.remove(veggie);
         return Response.status(NO_CONTENT).build();
       })
       .orElse(Response.status(NOT_FOUND).build());
   }
 
   @GET
-  public List<LegumeItem> list() {
+  public List<VeggieItem> list() {
     log.info("someone asked for a list");
-    return manager.createQuery("SELECT l FROM Legume l").getResultList();
+    return manager.createQuery("SELECT l FROM Veggie l").getResultList();
   }
 
-  private Optional<LegumeItem> find(final String legumeId) {
-    return Optional.ofNullable(manager.find(Legume.class, legumeId))
-      .map(legume -> LegumeItem.builder()
-        .id(legume.getId())
-        .name(legume.getName())
-        .description(legume.getDescription())
+  private Optional<VeggieItem> find(final String veggieId) {
+    return Optional.ofNullable(manager.find(Veggie.class, veggieId))
+      .map(veggie -> VeggieItem.builder()
+        .id(veggie.getId())
+        .name(veggie.getName())
+        .description(veggie.getDescription())
         .build());
   }
 
-  private LegumeItem addLegume(final LegumeNew legumeNew) {
-    final Legume legumeToAdd = Legume.builder()
-      .name(legumeNew.getName())
-      .description((legumeNew.getDescription()))
+  private VeggieItem addVeggie(final VeggieNew veggieNew) {
+    final Veggie veggieToAdd = Veggie.builder()
+      .name(veggieNew.getName())
+      .description((veggieNew.getDescription()))
       .build();
 
-    final Legume addedLegume = manager.merge(legumeToAdd);
+    final Veggie addedveggie = manager.merge(veggieToAdd);
 
-    final LegumeItem legumeItem = LegumeItem.builder()
-      .id(addedLegume.getId())
-      .name(addedLegume.getName())
-      .description(addedLegume.getDescription())
+    final VeggieItem veggieItem = VeggieItem.builder()
+      .id(addedveggie.getId())
+      .name(addedveggie.getName())
+      .description(addedveggie.getDescription())
       .build();
 
-    superHeroClient.notifyAdd(addedLegume.getName());
+    superHeroClient.notifyAdd(addedveggie.getName());
 
-    return legumeItem;
+    return veggieItem;
   }
 }

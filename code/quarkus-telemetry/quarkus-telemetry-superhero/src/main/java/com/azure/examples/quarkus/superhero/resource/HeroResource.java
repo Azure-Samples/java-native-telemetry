@@ -35,7 +35,7 @@ public class HeroResource {
   HeroRepository repository;
 
   @GET
-  public List<HeroItem> list(@QueryParam("legumeName") final String originalName,
+  public List<HeroItem> list(@QueryParam("veggieName") final String originalName,
                              @QueryParam("pageIndex") int pageIndex) {
     if (originalName == null || originalName.isBlank()) {
       log.info("someone asked for a list for index: " + pageIndex);
@@ -48,13 +48,13 @@ public class HeroResource {
   }
 
   @POST
-  @Path("/legume")
+  @Path("/veggie")
   @Consumes(TEXT_PLAIN)
   @Transactional(REQUIRED)
-  public Response add(final String legumeName) {
+  public Response add(final String veggieName) {
     final Hero hero = Hero.builder()
-      .name("SUPER-" + legumeName)
-      .originalName(legumeName)
+      .name("SUPER-" + veggieName)
+      .originalName(veggieName)
       .capeType(CapeType.SUPERMAN)
       .build();
 
