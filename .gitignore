@@ -21,3 +21,10 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+
+# IDE
+.vscode/settings.json
+
+# Java compiled files
+*.class
+**/target/
