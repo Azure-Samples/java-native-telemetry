@@ -16,7 +16,7 @@ mvn -Pnative spring-boot:build-image -Dspring-boot.build-image.imageName=spring-
 docker run -p 8080:8080 spring-boot-native
 ```
 
-## Enable the telemetry for GraalVM nativa images
+## Enable the telemetry for GraalVM native
 
 Add the [spring-cloud-azure-starter-monitor](https://central.sonatype.com/artifact/com.azure.spring/spring-cloud-azure-starter-monitor) dependency to the `pom.xml` file.
 

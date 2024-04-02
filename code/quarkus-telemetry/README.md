@@ -44,6 +44,14 @@ You can then execute your native executable with: `./target/<app name>-1.0.0-SNA
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
+
+## Enable the telemetry for GraalVM native
+
+To configure the telemetry for GraalVM native, look at [this page](https://docs.quarkiverse.io/quarkus-opentelemetry-exporter/dev/quarkus-opentelemetry-exporter-azure.html).
+
+You can follow [these instructions](./../../Azure-connection-string.md) to create an Application Insights resource and get the connection string in the Azure portal.
+
+
 ## Related Guides
 
 - OpenTelemetry ([guide](https://quarkus.io/guides/opentelemetry)): Use OpenTelemetry to trace services
