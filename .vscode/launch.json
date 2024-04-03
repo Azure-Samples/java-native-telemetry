@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MySpringBootApplication<spring-boot-telemetry>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.azure.examples.springboot.MySpringBootApplication",
+            "projectName": "spring-boot-telemetry",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -13,6 +13,6 @@ public class SpringBootResource {
   @GetMapping("/springboot")
   public String springBootGet() {
     LOGGER.info("Spring Boot: GET");
-    return "Spring Boot: hello";
+    return "Spring Boot: Hello World!";
   }
 }
