@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.azure.examples.springboot.model.Veggie;
+import com.azure.examples.springboot.model.VeggieItem;
 import com.azure.examples.springboot.service.VeggieService;
 
 import java.util.List;
@@ -24,8 +24,8 @@ public class VeggieController {
     }
 
     @PostMapping
-    public ResponseEntity<Veggie> addVeggie(@RequestBody Veggie veggie) {
-        Veggie savedVeggie = veggieService.addVeggie(veggie);
+    public ResponseEntity<VeggieItem> addVeggie(@RequestBody VeggieItem veggie) {
+        VeggieItem savedVeggie = veggieService.addVeggie(veggie);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVeggie);
     }
 
@@ -36,14 +36,14 @@ public class VeggieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Veggie>> getAllVeggies() {
-        List<Veggie> veggies = veggieService.getAllVeggies();
+    public ResponseEntity<List<VeggieItem>> getAllVeggies() {
+        List<VeggieItem> veggies = veggieService.getAllVeggies();
         return ResponseEntity.ok(veggies);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Veggie> getVeggieById(@PathVariable("id") Long id) {
-        Veggie veggie = veggieService.getVeggieById(id);
+    public ResponseEntity<VeggieItem> getVeggieById(@PathVariable("id") Long id) {
+        VeggieItem veggie = veggieService.getVeggieById(id);
         if (veggie != null) {
             return ResponseEntity.ok(veggie);
         } else {
