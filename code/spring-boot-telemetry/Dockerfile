@@ -1,4 +1,4 @@
-# Stage 1: Build the application
+# Stage 1: Build the native application
 FROM maven:3.8.2-openjdk-17-slim AS build
 
 WORKDIR /workspace/app
