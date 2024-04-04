@@ -24,6 +24,7 @@ lerna-debug.log*
 
 # IDE
 .vscode/settings.json
+.vscode/launch.json
 
 # Java compiled files
 *.class
