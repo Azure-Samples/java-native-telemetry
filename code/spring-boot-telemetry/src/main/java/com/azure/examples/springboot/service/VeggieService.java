@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.azure.examples.springboot.model.Veggie;
+import com.azure.examples.springboot.model.VeggieItem;
 
 @Service
 @Transactional
@@ -17,8 +17,8 @@ public class VeggieService {
         this.jdbcTemplate = jdbcTemplate;
     }
     
-    RowMapper<Veggie> rowMapper = (rs, rowNum) -> {
-        Veggie veggie = new Veggie();
+    RowMapper<VeggieItem> rowMapper = (rs, rowNum) -> {
+        VeggieItem veggie = new VeggieItem();
         veggie.setId(rs.getLong("id"));
         veggie.setName(rs.getString("name"));
         veggie.setDescription(rs.getString("description"));
@@ -33,7 +33,7 @@ public class VeggieService {
         jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", "Cauliflower", "White");
     }
 
-    public Veggie addVeggie(Veggie veggie) {
+    public VeggieItem addVeggie(VeggieItem veggie) {
         jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", veggie.getName(), veggie.getDescription());
         return veggie;
     }
@@ -42,11 +42,11 @@ public class VeggieService {
         jdbcTemplate.update("DELETE FROM veggies WHERE id = ?", id);
     }
 
-    public List<Veggie> getAllVeggies() {
+    public List<VeggieItem> getAllVeggies() {
         return jdbcTemplate.query("SELECT * FROM veggies", rowMapper);
     }
 
-    public Veggie getVeggieById(Long id) {
+    public VeggieItem getVeggieById(Long id) {
         return jdbcTemplate.queryForObject("SELECT * FROM veggies WHERE id = ?", rowMapper, id);
     }
 }
