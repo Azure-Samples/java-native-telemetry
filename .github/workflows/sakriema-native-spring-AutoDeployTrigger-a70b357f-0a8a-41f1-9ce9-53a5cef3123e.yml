@@ -1,4 +1,4 @@
-name: Trigger auto deployment for sakriema-native-spring
+name: Trigger auto deployment for spring-boot-telemetry-veggies
 
 # When this action will be executed
 on:
@@ -40,7 +40,7 @@ jobs:
           registryPassword: ${{ secrets.SAKRIEMANATIVESPRING_REGISTRY_PASSWORD }}
           containerAppName: sakriema-native-spring
           resourceGroup: sakriema-graalvm
-          imageToBuild: nativetelemetry.azurecr.io/sakriema-native-spring:${{ github.sha }}
+          imageToBuild: nativetelemetry.azurecr.io/spring-boot-telemetry-veggies:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
