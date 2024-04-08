@@ -8,7 +8,7 @@ on:
       [ main ]
     paths:
     - '.github/workflows/sakriema-native-spring-AutoDeployTrigger-a70b357f-0a8a-41f1-9ce9-53a5cef3123e.yml'
-    - 'code/spring-boot-telemetry/*'
+    - 'code/spring-boot-telemetry/**'
 
   # Allow manual trigger 
   workflow_dispatch:      
