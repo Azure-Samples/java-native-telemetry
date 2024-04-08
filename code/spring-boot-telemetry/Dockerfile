@@ -13,7 +13,7 @@ ENV DATABASE_USERNAME=${DATABASE_USERNAME}
 ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
 
 # compile the native image
-RUN --mount=type=cache,target=/root/.m2 /apache-maven-3.9.6/bin/mvn clean native:compile -Pnative
+RUN --mount=type=cache,target=/root/.m2 /apache-maven-3.9.6/bin/mvn clean native:compile -Pnative -DDATABASE_PASSWORD=${DATABASE_PASSWORD} -DDATABASE_URL=${DATABASE_URL} -DDATABASE_USERNAME=${DATABASE_USERNAME}
 
 FROM alpine
 EXPOSE 8080
