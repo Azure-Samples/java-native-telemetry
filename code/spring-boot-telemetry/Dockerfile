@@ -6,6 +6,12 @@ WORKDIR /app
 
 COPY pom.xml .
 COPY src src
+
+# set the environment variables
+ENV DATABASE_URL=${DATABASE_URL}
+ENV DATABASE_USERNAME=${DATABASE_USERNAME}
+ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
+
 # compile the native image
 RUN --mount=type=cache,target=/root/.m2 /apache-maven-3.9.6/bin/mvn clean native:compile -Pnative
 
