@@ -7,7 +7,6 @@ on:
     branches: 
       [ main ]
     paths:
-    - 'code/spring-boot-telemetry/**'
     - '.github/workflows/sakriema-native-spring-AutoDeployTrigger-a70b357f-0a8a-41f1-9ce9-53a5cef3123e.yml'
 
   # Allow manual trigger 
@@ -34,7 +33,7 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }} 
+          appSourcePath: ${{ github.workspace }}/code/spring-boot-telemetry
           registryUrl: nativetelemetry.azurecr.io
           registryUsername: ${{ secrets.SAKRIEMANATIVESPRING_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.SAKRIEMANATIVESPRING_REGISTRY_PASSWORD }}
