@@ -1,0 +1,19 @@
+services:
+  veggies:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.multistage
+    ports:
+      - 8080:8080
+    environment:
+        - DATASOURCE_URL=jdbc:postgresql://db:5432/demo
+        - DATASOURCE_USERNAME=demo
+        - DATASOURCE_PASSWORD=demo
+        - SUPERHERO_URL=http://localhost:8081
+        - QUARKUS_OTEL_TRACER_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=demo
+      - POSTGRES_DB=demo

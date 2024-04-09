@@ -14,32 +14,4 @@
     <module>spring-boot-telemetry</module>
   </modules>
 
-  <properties>
-    <maven.compiler.release>17</maven.compiler.release>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.7.4</quarkus.platform.version>
-    <quarkus-micrometer-registry-otlp.version>3.2.4</quarkus-micrometer-registry-otlp.version>
-    <lombok.version>1.18.30</lombok.version>
-    <rest-assured.version>5.4.0</rest-assured.version>
-    <skipITs>true</skipITs>
-    <compiler-plugin.version>3.12.1</compiler-plugin.version>
-    <surefire-plugin.version>3.2.5</surefire-plugin.version>
-  </properties>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler-plugin.version}</version>
-        <configuration>
-          <release>${maven.compiler.release}</release>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
 </project>
