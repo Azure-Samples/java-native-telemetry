@@ -27,8 +27,6 @@
 
   <modules>
     <module>quarkus-telemetry-vegetable</module>
-    <module>quarkus-telemetry-superhero</module>
   </modules>
-
 
 </project>
