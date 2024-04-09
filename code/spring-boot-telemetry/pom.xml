@@ -74,6 +74,7 @@
         <configuration>
           <buildArgs>
             <buildArg>--libc=musl</buildArg>
+            <arg>-Djava.security.properties=src/main/resources/custom.security</arg>
           </buildArgs>
         </configuration>
       </plugin>
