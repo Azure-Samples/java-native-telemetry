@@ -73,7 +73,9 @@
         <artifactId>native-maven-plugin</artifactId>
         <configuration>
           <buildArgs>
-            <arg>-Djava.security.properties=src/main/resources/custom.security</arg>
+            <jvmArgs>
+              <arg>-Djava.security.properties=src/main/resources/custom.security</arg>
+            </jvmArgs>
           </buildArgs>
         </configuration>
       </plugin>
