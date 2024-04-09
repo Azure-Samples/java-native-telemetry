@@ -74,7 +74,6 @@
         <configuration>
           <buildArgs>
             <buildArg>--libc=musl</buildArg>
-            <buildArg>--initialize-at-build-time=org.slf4j.helpers</buildArg>
             <arg>-Djava.security.properties=src/main/resources/custom.security</arg>
           </buildArgs>
         </configuration>
