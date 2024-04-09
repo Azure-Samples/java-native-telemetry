@@ -38,7 +38,7 @@ jobs:
           registryUrl: nativetelemetry.azurecr.io
           registryUsername: ${{ secrets.SAKRIEMANATIVESPRING_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.SAKRIEMANATIVESPRING_REGISTRY_PASSWORD }}
-          containerAppName: aca-spring-native
+          containerAppName: sakriema-native-spring
           resourceGroup: sakriema-graalvm
           imageToBuild: nativetelemetry.azurecr.io/spring-boot-telemetry-veggies:${{ github.sha }}
           environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}'
