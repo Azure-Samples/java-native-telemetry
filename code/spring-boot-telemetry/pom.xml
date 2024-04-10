@@ -73,8 +73,26 @@
         <artifactId>native-maven-plugin</artifactId>
         <configuration>
           <buildArgs>
-            <jvmArgs>-Djava.security.properties=src/main/resources/custom.security</jvmArgs>
-          </buildArgs>
+            <buildArg>--initialize-at-build-time=com.azure.core.util.logging.ClientLogger</buildArg>
+            <buildArg>--initialize-at-build-time=com.fasterxml.jackson.core.Base64Variant</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.api.internal.InternalAttributeKeyImpl</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.context.propagation.NoopTextMapPropagator</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.MapBackedCache</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.ConcurrentLinkedHashMap$DiscardingQueue</buildArg>
+            <buildArg>--initialize-at-build-time=org.slf4j.helpers.NOP_FallbackServiceProvider</buildArg>
+            <buildArg>--initialize-at-build-time=org.slf4j.helpers.SubstituteServiceProvider</buildArg> 
+            <buildArg>--initialize-at-build-time=com.fasterxml.jackson.core.Base64Variant$PaddingReadBehaviour</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.api.common.AttributeType</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.ConcurrentLinkedHashMap$DiscardingListener</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.ConcurrentLinkedHashMap$DrainStatus$1</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.ConcurrentLinkedHashMap$EntrySet</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.LinkedDeque</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.Weighers$SingletonEntryWeigher</buildArg>
+            <buildArg>--initialize-at-build-time=org.slf4j.helpers.NOPLoggerFactory</buildArg>
+            <buildArg>--initialize-at-build-time=org.slf4j.helpers.SubstituteLoggerFactory</buildArg>   
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.ConcurrentLinkedHashMap$DrainStatus$2</buildArg>
+            <buildArg>--initialize-at-build-time=io.opentelemetry.instrumentation.api.internal.cache.concurrentlinkedhashmap.ConcurrentLinkedHashMap$DrainStatus$3</buildArg>
+          </buildArgs>                           
         </configuration>
       </plugin>
       <plugin>
