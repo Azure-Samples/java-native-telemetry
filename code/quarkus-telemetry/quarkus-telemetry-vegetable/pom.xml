@@ -48,21 +48,12 @@
       <artifactId>quarkus-hibernate-orm</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkiverse.opentelemetry.exporter</groupId>
-      <artifactId>quarkus-opentelemetry-exporter-azure</artifactId>
-      <version>${quarkus-opentelemetry-exporter-azure.version}</version>
-    </dependency>
-    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-postgresql</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.opentelemetry.instrumentation</groupId>
-      <artifactId>opentelemetry-jdbc</artifactId>
     </dependency>
 
     <!-- Test dependencies -->
