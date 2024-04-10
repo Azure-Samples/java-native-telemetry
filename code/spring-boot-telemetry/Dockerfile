@@ -1,4 +1,4 @@
-FROM ghcr.io/graalvm/native-image-community:22 AS build
+FROM ghcr.io/graalvm/native-image-community:22-muslib AS build
 WORKDIR /
 # install maven
 RUN curl https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz | tar zx
