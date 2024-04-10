@@ -1,27 +1,27 @@
 services:
   db:
     image: postgres:alpine
+    ports:
+      - '5432:5432'
     environment:
       - POSTGRES_USER=demo
       - POSTGRES_PASSWORD=demo
       - POSTGRES_DB=demo
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
+      test: [ "CMD-SHELL", "pg_isready"]
       interval: 1s
       timeout: 2s
       retries: 5
 
-  veggies:
-    image: localhost/quarkus-telemetry-vegetable:latest
+  superhero:
+    image: localhost/quarkus-telemetry-superhero:latest
     ports:
-      - 8080:8080
+      - 8081:8081
     environment:
       - DATABASE_URL=jdbc:postgresql://db:5432/demo
       - DATABASE_USER=demo
       - DATABASE_PASSWORD=demo
-      - SUPERHERO_URL=http://localhost:8081
       - APPLICATIONINSIGHTS_CONNECTION_STRING=http://localhost:4317
     depends_on:
       db:
         condition: service_healthy
-
