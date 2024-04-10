@@ -5,7 +5,7 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ add-monitoring ]
+      [ main ]
     paths:
     - '.github/workflows/sakriema-native-spring-AutoDeployTrigger-a70b357f-0a8a-41f1-9ce9-53a5cef3123e.yml'
     - 'code/spring-boot-telemetry/**'
@@ -41,7 +41,7 @@ jobs:
           containerAppName: sakriema-native-spring
           resourceGroup: sakriema-graalvm
           imageToBuild: nativetelemetry.azurecr.io/spring-boot-telemetry-veggies:${{ github.sha }}
-          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}'
+          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.PDATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}'
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
