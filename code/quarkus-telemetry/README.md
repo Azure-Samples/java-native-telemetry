@@ -1,4 +1,10 @@
+# Native Quarkus telemetry on Azure
 
+This project contains 2 services implemented with Quarkus using que Quarkiverse OpenTelemetry Exporter for Azure, for demonstration purposes. `quarkus-telemetry-vegetable`and `quarkus-telemetry-superhero`.
+
+The `quarkus-telemetry-vegetable` is a CRUD application for Vegetables and each time you create a veggie in there, a REST request is dispatched to `quarkus-telemetry-superhero` where a veggie is transformed in a vegetable superhero :) .
+
+This allows us to show tracing across multiple services.
 
 
 ## Running the application in dev mode
@@ -7,6 +13,7 @@ You can run your application in dev mode that enables live coding using:
 ```shell script
 mvn compile quarkus:dev
 ```
+In these projects it will automatically download and start a PostgreSQL DB.
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
@@ -51,7 +58,25 @@ To configure the telemetry for GraalVM native, look at [this page](https://docs.
 
 You can follow [these instructions](./../../Azure-connection-string.md) to create an Application Insights resource and get the connection string in the Azure portal.
 
+## Docker 
+You have docker files to deploy each of the Quarkus projects at `/src/main/docker/`:
+- For [quarkus-telemetry-superhero](quarkus-telemetry-superhero/src/main/docker/)
+- For [quarkus-telemetry-vegetable](quarkus-telemetry-vegetable/src/main/docker/)
+  
+A `Dockerfile.multistage` file is available build a docker image from a multistage dockerfile. 
+
+These commands can be executed to build and run the `quarkus-telemetry-superhero` service:
+Build on project root: `docker build -f src/main/docker/Dockerfile.multistage --ulimit nofile=5000:5000 -t quarkus-telemetry-superhero .`
+Run: `docker run -i --rm -p 8081:8080 quarkus-telemetry-superhero`
+
+## Docker compose
+
+Each project has a docker compose allowing to start a PostgreSQL DB allong with a container using the previouslu built docker image:
+- For [quarkus-telemetry-superhero](quarkus-telemetry-superhero/docker-compose.yml)
+- For [quarkus-telemetry-vegetable](quarkus-telemetry-vegetable/docker-compose.yml)
 
 ## Related Guides
 
 - OpenTelemetry ([guide](https://quarkus.io/guides/opentelemetry)): Use OpenTelemetry to trace services
+- Quarkus Opentelemetry Exporter for Microsoft Azure ([guide](https://docs.quarkiverse.io/quarkus-opentelemetry-exporter/dev/quarkus-opentelemetry-exporter-azure.html)).
+
