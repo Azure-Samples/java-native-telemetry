@@ -34,13 +34,14 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/code/spring-boot-native 
+          appSourcePath: ${{ github.workspace }}/code/spring-boot-telemetry 
           registryUrl: nativetelemetry.azurecr.io
           registryUsername: ${{ secrets.SPRINGNATIVEDEFAULT_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.SPRINGNATIVEDEFAULT_REGISTRY_PASSWORD }}
           containerAppName: spring-native-default
           resourceGroup: sakriema-graalvm
           imageToBuild: nativetelemetry.azurecr.io/spring-native-default:${{ github.sha }}
+          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.PDATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} APPLICATIONINSIGHTS_CONNECTION_STRING=$${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}'
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
