@@ -10,7 +10,7 @@ public class SpringBootResource {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootResource.class);
 
-  @GetMapping("/springboot")
+  @GetMapping
   public String springBootGet() {
     LOGGER.info("Spring Boot: GET");
     return "Spring Boot: Hello World!";
