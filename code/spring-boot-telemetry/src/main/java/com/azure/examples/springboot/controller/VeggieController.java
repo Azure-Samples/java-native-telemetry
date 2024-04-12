@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.azure.examples.springboot.model.VeggieItem;
+import com.azure.examples.springboot.data.VeggieItem;
 import com.azure.examples.springboot.service.VeggieService;
 
 import java.util.List;

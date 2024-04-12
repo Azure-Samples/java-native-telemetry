@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.azure.examples.springboot.model.VeggieItem;
+import com.azure.examples.springboot.data.VeggieItem;
 
 @Service
 @Transactional
@@ -16,7 +16,7 @@ public class VeggieService {
     public VeggieService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    
+
     RowMapper<VeggieItem> rowMapper = (rs, rowNum) -> {
         VeggieItem veggie = new VeggieItem();
         veggie.setId(rs.getLong("id"));
