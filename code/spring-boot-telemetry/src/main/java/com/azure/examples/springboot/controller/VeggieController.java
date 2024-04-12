@@ -24,7 +24,7 @@ public class VeggieController {
   @Autowired
   private VeggieService veggieService;
 
-  @Value("${rest-client.superhero-api.url}")
+  @Value("${client.superhero.url}")
   private String restClientUrl;
 
   private final RestTemplate restTemplate = new RestTemplate();
