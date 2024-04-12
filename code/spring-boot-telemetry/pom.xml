@@ -101,6 +101,7 @@
           <buildArgs>
             <buildArg>--libc=musl</buildArg>
             <jvmArgs>-Djava.security.properties=src/main/resources/custom.security</jvmArgs>
+            <buildArg>--initialize-at-build-time=com.azure.core.util.logging.ClientLogger</buildArg>
             <buildArg>--initialize-at-build-time=com.fasterxml.jackson.core.Base64Variant</buildArg>
             <buildArg>
               --initialize-at-build-time=io.opentelemetry.api.internal.InternalAttributeKeyImpl</buildArg>
