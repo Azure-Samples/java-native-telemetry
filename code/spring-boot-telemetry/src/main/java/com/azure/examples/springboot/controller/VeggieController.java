@@ -40,7 +40,6 @@ public class VeggieController {
     VeggieItem savedVeggie = veggieService.addVeggie(veggie);
     try {
       String url = restClientUrl + "/heroes/veggie";
-      System.out.println("url = " + url);
       restTemplate.postForEntity(url, savedVeggie.getName(), String.class);
     } catch (Exception e) {
       logger.error("Failed to notify SuperHero API", e);
