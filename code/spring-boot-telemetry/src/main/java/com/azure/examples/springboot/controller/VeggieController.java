@@ -19,15 +19,18 @@ import java.util.List;
 @RequestMapping("/veggies")
 public class VeggieController {
 
-  private Logger logger = LoggerFactory.getLogger(VeggieController.class);
+  private final Logger logger = LoggerFactory.getLogger(VeggieController.class);
 
-  @Autowired
-  private VeggieService veggieService;
+  private final VeggieService veggieService;
+  private final RestTemplate restTemplate;
 
   @Value("${client.superhero.url}")
   private String restClientUrl;
 
-  private final RestTemplate restTemplate = new RestTemplate();
+  VeggieController(VeggieService veggieService, RestTemplate restTemplate) {
+    this.veggieService = veggieService;
+    this.restTemplate = restTemplate;
+  }
 
   @PostMapping("/init")
   public ResponseEntity<String> initializeDatabase() {
