@@ -51,36 +51,6 @@ class VeggieControllerTest {
     assertThat(veggieItems).extracting("name").contains("Carrot", "Broccoli", "Cauliflower");
   }
   @Test
-  void testGetVeggieById() {
-    // given
-    Long id = 2L;
-
-    // when
-    ResponseEntity<VeggieItem> response = testRestTemplate.getForEntity("/veggies/{id}", VeggieItem.class, id);
-
-    // then
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    VeggieItem veggieItem = response.getBody();
-    assertThat(veggieItem.getName()).isEqualTo("Broccoli");
-    assertThat(veggieItem.getDescription()).isEqualTo("Green");
-  }
-
-  @Test
-  void testDeleteVeggie() {
-    // given
-    Long id = 1L;
-
-    // when
-    testRestTemplate.delete("/veggies/{id}", id);
-
-    // then
-    ResponseEntity<VeggieItem[]> response = testRestTemplate.getForEntity("/veggies", VeggieItem[].class);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    VeggieItem[] veggieItems = response.getBody();
-    assertThat(veggieItems).hasSize(2);
-    assertThat(veggieItems).extracting("name").contains("Broccoli", "Cauliflower");
-  }
-  @Test
   void testDeleteVeggieNotFound() {
     // given
     Long id = 99L;

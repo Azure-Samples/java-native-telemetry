@@ -1,13 +1,13 @@
 package com.azure.examples.springboot.data;
 
 public class VeggieItem {
-  private Long id;
+  private String id;
 
   private String name;
 
   private String description;
 
-  public VeggieItem(Long id, String name, String description) {
+  public VeggieItem(String id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -20,7 +20,7 @@ public class VeggieItem {
     return new VeggieItemBuilder();
   }
 
-  public Long getId() {
+  public String getId() {
     return this.id;
   }
 
@@ -32,7 +32,7 @@ public class VeggieItem {
     return this.description;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -72,14 +72,14 @@ public class VeggieItem {
   }
 
   public static class VeggieItemBuilder {
-    private Long id;
+    private String id;
     private String name;
     private String description;
 
     VeggieItemBuilder() {
     }
 
-    public VeggieItemBuilder id(Long id) {
+    public VeggieItemBuilder id(String id) {
       this.id = id;
       return this;
     }

@@ -1,13 +1,15 @@
 package com.azure.examples.springboot.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Veggie {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  @GeneratedValue(generator = "system-uuid")
+  @GenericGenerator(name = "system-uuid", strategy = "uuid")
+  private String id;
 
   @Column(nullable = false)
   private String name;
@@ -15,7 +17,7 @@ public class Veggie {
   @Column(length = 2000)
   private String description;
 
-  public Veggie(Long id, String name, String description) {
+  public Veggie(String id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -33,7 +35,7 @@ public class Veggie {
     return new VeggieBuilder();
   }
 
-  public Long getId() {
+  public String getId() {
     return this.id;
   }
 
@@ -45,7 +47,7 @@ public class Veggie {
     return this.description;
   }
 
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -85,14 +87,14 @@ public class Veggie {
   }
 
   public static class VeggieBuilder {
-    private Long id;
+    private String id;
     private String name;
     private String description;
 
     VeggieBuilder() {
     }
 
-    public VeggieBuilder id(Long id) {
+    public VeggieBuilder id(String id) {
       this.id = id;
       return this;
     }
