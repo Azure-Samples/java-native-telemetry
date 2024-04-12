@@ -1,7 +1,7 @@
 package com.azure.examples.springboot.controller;
 
 import com.azure.examples.springboot.MySpringBootApplication;
-import com.azure.examples.springboot.model.VeggieItem;
+import com.azure.examples.springboot.data.VeggieItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

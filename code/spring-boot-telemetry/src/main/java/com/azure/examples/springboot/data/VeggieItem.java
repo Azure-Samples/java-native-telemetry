@@ -1,4 +1,4 @@
-package com.azure.examples.springboot.model;
+package com.azure.examples.springboot.data;
 
 public class VeggieItem {
   private Long id;
