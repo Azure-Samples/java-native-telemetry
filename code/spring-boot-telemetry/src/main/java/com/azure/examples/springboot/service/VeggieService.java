@@ -3,7 +3,6 @@ package com.azure.examples.springboot.service;
 import com.azure.examples.springboot.data.VeggieItem;
 import com.azure.examples.springboot.model.Veggie;
 import com.azure.examples.springboot.repository.VeggieRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,11 +11,9 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class VeggieService {
-  private final JdbcTemplate jdbcTemplate;
   private final VeggieRepository veggieRepository;
 
-  public VeggieService(JdbcTemplate jdbcTemplate, VeggieRepository veggieRepository) {
-    this.jdbcTemplate = jdbcTemplate;
+  public VeggieService(VeggieRepository veggieRepository) {
     this.veggieRepository = veggieRepository;
   }
 
