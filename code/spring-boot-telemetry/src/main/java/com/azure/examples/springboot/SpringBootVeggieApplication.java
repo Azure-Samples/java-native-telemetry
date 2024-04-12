@@ -8,17 +8,17 @@ import org.springframework.context.annotation.Bean;
 import com.azure.examples.springboot.service.VeggieService;
 
 @SpringBootApplication
-public class MySpringBootApplication {
+public class SpringBootVeggieApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(MySpringBootApplication.class, args);
+    SpringApplication.run(SpringBootVeggieApplication.class, args);
   }
 
   @Bean
   CommandLineRunner commandLineRunner(VeggieService veggieService) {
       return args -> {
-          veggieService.initializeDatabase();          
+          veggieService.initializeDatabase();
       };
   }
-  
+
 }
