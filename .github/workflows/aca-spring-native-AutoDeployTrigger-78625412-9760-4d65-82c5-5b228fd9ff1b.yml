@@ -41,7 +41,7 @@ jobs:
           containerAppName: aca-spring-native
           resourceGroup: sakriema-graalvm
           imageToBuild: nativetelemetry.azurecr.io/aca-spring-native:${{ github.sha }}
-          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} APPLICATIONINSIGHTS_CONNECTION_STRING=$${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}'
+          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} APPLICATIONINSIGHTS_CONNECTION_STRING=${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}'
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
