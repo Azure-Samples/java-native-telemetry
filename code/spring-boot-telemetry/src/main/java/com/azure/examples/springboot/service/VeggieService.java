@@ -11,11 +11,11 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class VeggieService {
-    private final VeggieRepository veggieRepository;
+  private final VeggieRepository veggieRepository;
 
-    public VeggieService(VeggieRepository veggieRepository) {
-        this.veggieRepository = veggieRepository;
-    }
+  public VeggieService(VeggieRepository veggieRepository) {
+    this.veggieRepository = veggieRepository;
+  }
 
     @Transactional
     public void initializeDatabase() {
