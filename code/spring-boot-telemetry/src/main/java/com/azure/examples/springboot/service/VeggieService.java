@@ -16,7 +16,7 @@ public class VeggieService {
     public VeggieService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    
+
     RowMapper<VeggieItem> rowMapper = (rs, rowNum) -> {
         VeggieItem veggie = new VeggieItem();
         veggie.setId(rs.getLong("id"));
@@ -34,7 +34,8 @@ public class VeggieService {
     }
 
     public VeggieItem addVeggie(VeggieItem veggie) {
-        jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", veggie.getName(), veggie.getDescription());
+        jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", veggie.getName(),
+                veggie.getDescription());
         return veggie;
     }
 

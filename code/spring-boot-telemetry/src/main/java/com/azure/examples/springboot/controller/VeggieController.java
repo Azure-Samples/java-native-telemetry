@@ -1,12 +1,16 @@
 package com.azure.examples.springboot.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.azure.examples.springboot.model.VeggieItem;
 import com.azure.examples.springboot.service.VeggieService;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -14,8 +18,15 @@ import java.util.List;
 @RequestMapping("/veggies")
 public class VeggieController {
 
+    private Logger logger = LoggerFactory.getLogger(VeggieController.class);
+
     @Autowired
     private VeggieService veggieService;
+
+    @Value("${client.superhero.url}")
+    private String restClientUrl;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @PostMapping("/init")
     public ResponseEntity<String> initializeDatabase() {
@@ -26,6 +37,12 @@ public class VeggieController {
     @PostMapping
     public ResponseEntity<VeggieItem> addVeggie(@RequestBody VeggieItem veggie) {
         VeggieItem savedVeggie = veggieService.addVeggie(veggie);
+        try {
+            String url = restClientUrl + "/heroes/veggie";
+            restTemplate.postForEntity(url, savedVeggie.getName(), String.class);
+        } catch (Exception e) {
+            logger.error("Failed to notify SuperHero API", e);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVeggie);
     }
 
