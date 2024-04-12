@@ -17,37 +17,38 @@ public class VeggieService {
     this.veggieRepository = veggieRepository;
   }
 
-  @Transactional
-  public void initializeDatabase() {
-    Veggie carrot = new Veggie("Carrot", "Orange");
-    Veggie broccoli = new Veggie("Broccoli", "Green");
-    Veggie cauliflower = new Veggie("Cauliflower", "White");
+    @Transactional
+    public void initializeDatabase() {
+        Veggie carrot = new Veggie("Carrot", "Orange");
+        Veggie broccoli = new Veggie("Broccoli", "Green");
+        Veggie cauliflower = new Veggie("Cauliflower", "White");
 
-    veggieRepository.save(carrot);
-    veggieRepository.save(broccoli);
-    veggieRepository.save(cauliflower);
-  }
+        veggieRepository.save(carrot);
+        veggieRepository.save(broccoli);
+        veggieRepository.save(cauliflower);
+    }
 
-  @Transactional
-  public VeggieItem addVeggie(VeggieItem veggie) {
-    Veggie veggieEntity = new Veggie(veggie.getName(), veggie.getDescription());
-    Veggie savedVeggie = veggieRepository.save(veggieEntity);
-    return new VeggieItem(savedVeggie.getId(), savedVeggie.getName(), savedVeggie.getDescription());
-  }
+    @Transactional
+    public VeggieItem addVeggie(VeggieItem veggie) {
+        Veggie veggieEntity = new Veggie(veggie.getName(), veggie.getDescription());
+        Veggie savedVeggie = veggieRepository.save(veggieEntity);
+        return new VeggieItem(savedVeggie.getId(), savedVeggie.getName(), savedVeggie.getDescription());
+    }
 
-  @Transactional
-  public void deleteVeggie(Long id) {
-    veggieRepository.deleteById(id);
-  }
+    @Transactional
+    public void deleteVeggie(Long id) {
+        veggieRepository.deleteById(String.valueOf(id));
+    }
 
-  public List<VeggieItem> getAllVeggies() {
-    List<Veggie> veggies = veggieRepository.findAll();
-    return veggies.stream().map(veggie -> new VeggieItem(veggie.getId(), veggie.getName(), veggie.getDescription())).toList();
-  }
+    public List<VeggieItem> getAllVeggies() {
+        List<Veggie> veggies = veggieRepository.findAll();
+        return veggies.stream().map(veggie -> new VeggieItem(veggie.getId(), veggie.getName(), veggie.getDescription()))
+                .toList();
+    }
 
-  public VeggieItem getVeggieById(Long id) {
-    return veggieRepository.findById(id)
-      .map(veggie -> new VeggieItem(veggie.getId(), veggie.getName(), veggie.getDescription()))
-      .orElse(null);
-  }
+    public VeggieItem getVeggieById(Long id) {
+        return veggieRepository.findById(String.valueOf(id))
+                .map(veggie -> new VeggieItem(veggie.getId(), veggie.getName(), veggie.getDescription()))
+                .orElse(null);
+    }
 }
