@@ -15,7 +15,7 @@ services:
 
   superhero:
 #    image: localhost/quarkus-telemetry-superhero:latest
-    image: nativetelemetry.azurecr.io/quarkus-native-monitoring:7ae5f3fb0cf13f69a4b50ed22d1bb48fcaa87653
+    image: nativetelemetry.azurecr.io/quarkus-native-monitoring:82ea9e2cc21802e83ac94b665dbd2ce4307458d7
     ports:
       - 8081:8081
     environment:
