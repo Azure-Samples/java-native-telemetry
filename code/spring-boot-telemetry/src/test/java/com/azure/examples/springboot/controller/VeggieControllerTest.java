@@ -1,6 +1,6 @@
 package com.azure.examples.springboot.controller;
 
-import com.azure.examples.springboot.MySpringBootApplication;
+import com.azure.examples.springboot.SpringBootVeggieApplication;
 import com.azure.examples.springboot.data.VeggieItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
-  classes = {MySpringBootApplication.class}
+  classes = {SpringBootVeggieApplication.class}
   , webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 class VeggieControllerTest {
