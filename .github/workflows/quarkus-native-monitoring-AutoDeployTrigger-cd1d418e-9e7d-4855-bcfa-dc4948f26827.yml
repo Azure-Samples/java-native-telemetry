@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
+      - name: Echo GitHub Workspace
+        run: echo ${{ github.workspace }}
 
       - name: Azure Login
         uses: azure/login@v1
