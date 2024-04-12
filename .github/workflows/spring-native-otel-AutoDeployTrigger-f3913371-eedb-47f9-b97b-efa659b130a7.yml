@@ -41,7 +41,7 @@ jobs:
           containerAppName: spring-native-otel
           resourceGroup: sakriema-graalvm
           imageToBuild: nativetelemetry.azurecr.io/spring-native-otel:${{ github.sha }}
-          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} APPLICATIONINSIGHTS_CONNECTION_STRING=${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}'
+          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} APPLICATIONINSIGHTS_CONNECTION_STRING=${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }} CLIENT_SUPERHERO_URL=${{ secrets.CLIENT_SUPERHERO_URL }}'
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
