@@ -1,5 +1,6 @@
 package com.azure.examples.quarkus.superhero.resource;
 
+import com.azure.examples.quarkus.superhero.data.ConferenceException;
 import com.azure.examples.quarkus.superhero.data.HeroItem;
 import com.azure.examples.quarkus.superhero.model.CapeType;
 import com.azure.examples.quarkus.superhero.model.Hero;
@@ -46,6 +47,14 @@ public class HeroResource {
     } else {
       return findByOriginalName(originalName);
     }
+  }
+
+  @GET
+  @Path("/i-want-a-raise")
+  @Consumes(TEXT_PLAIN)
+  public String generateException() {
+    log.info("Someone asked for a raise...");
+    throw new ConferenceException("This is a generated exception, just for you!");
   }
 
   @POST
