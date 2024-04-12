@@ -1,8 +1,8 @@
 package com.azure.examples.quarkus.superhero.resource;
 
 import com.azure.examples.quarkus.superhero.data.HeroItem;
-import com.azure.examples.quarkus.superhero.model.Hero;
 import com.azure.examples.quarkus.superhero.model.CapeType;
+import com.azure.examples.quarkus.superhero.model.Hero;
 import com.azure.examples.quarkus.superhero.repository.HeroRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,7 +14,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
-import lombok.extern.slf4j.Slf4j;
+import org.jboss.logging.Logger;
 
 import java.util.List;
 
@@ -28,8 +28,9 @@ import static java.util.stream.Collectors.toList;
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
 @ApplicationScoped
-@Slf4j
 public class HeroResource {
+
+  private static final Logger log = Logger.getLogger(HeroResource.class);
 
   @Inject
   HeroRepository repository;
@@ -59,7 +60,7 @@ public class HeroResource {
       .build();
 
     final Hero createdHero = repository.create(hero);
-    log.info("hero created: {}", createdHero);
+    log.info("hero created: " + createdHero);
 
     return Response.status(CREATED)
       .entity(HeroItem.builder()

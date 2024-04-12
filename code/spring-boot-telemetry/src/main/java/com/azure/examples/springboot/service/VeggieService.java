@@ -1,53 +1,56 @@
 package com.azure.examples.springboot.service;
 
-import java.util.List;
+import com.azure.examples.springboot.data.VeggieItem;
+import com.azure.examples.springboot.model.Veggie;
+import com.azure.examples.springboot.repository.VeggieRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.azure.examples.springboot.model.VeggieItem;
+import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class VeggieService {
-    private final JdbcTemplate jdbcTemplate;
+  private final JdbcTemplate jdbcTemplate;
+  private final VeggieRepository veggieRepository;
 
-    public VeggieService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+  public VeggieService(JdbcTemplate jdbcTemplate, VeggieRepository veggieRepository) {
+    this.jdbcTemplate = jdbcTemplate;
+    this.veggieRepository = veggieRepository;
+  }
 
-    RowMapper<VeggieItem> rowMapper = (rs, rowNum) -> {
-        VeggieItem veggie = new VeggieItem();
-        veggie.setId(rs.getLong("id"));
-        veggie.setName(rs.getString("name"));
-        veggie.setDescription(rs.getString("description"));
-        return veggie;
-    };
+  @Transactional
+  public void initializeDatabase() {
+    Veggie carrot = new Veggie("Carrot", "Orange");
+    Veggie broccoli = new Veggie("Broccoli", "Green");
+    Veggie cauliflower = new Veggie("Cauliflower", "White");
 
-    public void initializeDatabase() {
-        jdbcTemplate.execute("DROP TABLE IF EXISTS veggies");
-        jdbcTemplate.execute("CREATE TABLE veggies(id SERIAL, name VARCHAR(255), description VARCHAR(255))");
-        jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", "Carrot", "Orange");
-        jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", "Broccoli", "Green");
-        jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", "Cauliflower", "White");
-    }
+    veggieRepository.save(carrot);
+    veggieRepository.save(broccoli);
+    veggieRepository.save(cauliflower);
+  }
 
-    public VeggieItem addVeggie(VeggieItem veggie) {
-        jdbcTemplate.update("INSERT INTO veggies(name, description) VALUES (?, ?)", veggie.getName(),
-                veggie.getDescription());
-        return veggie;
-    }
+  @Transactional
+  public VeggieItem addVeggie(VeggieItem veggie) {
+    Veggie veggieEntity = new Veggie(veggie.getName(), veggie.getDescription());
+    Veggie savedVeggie = veggieRepository.save(veggieEntity);
+    return new VeggieItem(savedVeggie.getId(), savedVeggie.getName(), savedVeggie.getDescription());
+  }
 
-    public void deleteVeggie(Long id) {
-        jdbcTemplate.update("DELETE FROM veggies WHERE id = ?", id);
-    }
+  @Transactional
+  public void deleteVeggie(Long id) {
+    veggieRepository.deleteById(id);
+  }
 
-    public List<VeggieItem> getAllVeggies() {
-        return jdbcTemplate.query("SELECT * FROM veggies", rowMapper);
-    }
+  public List<VeggieItem> getAllVeggies() {
+    List<Veggie> veggies = veggieRepository.findAll();
+    return veggies.stream().map(veggie -> new VeggieItem(veggie.getId(), veggie.getName(), veggie.getDescription())).toList();
+  }
 
-    public VeggieItem getVeggieById(Long id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM veggies WHERE id = ?", rowMapper, id);
-    }
+  public VeggieItem getVeggieById(Long id) {
+    return veggieRepository.findById(id)
+      .map(veggie -> new VeggieItem(veggie.getId(), veggie.getName(), veggie.getDescription()))
+      .orElse(null);
+  }
 }

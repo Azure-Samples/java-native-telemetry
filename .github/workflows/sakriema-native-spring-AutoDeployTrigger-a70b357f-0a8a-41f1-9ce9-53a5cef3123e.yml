@@ -5,7 +5,7 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ add-monitoring ]
+      [ main ]
     paths:
     - '.github/workflows/sakriema-native-spring-AutoDeployTrigger-a70b357f-0a8a-41f1-9ce9-53a5cef3123e.yml'
     - 'code/spring-boot-telemetry/**'
@@ -27,22 +27,21 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.SAKRIEMANATIVESPRING_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.SAKRIEMANATIVESPRING_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.SAKRIEMANATIVESPRING_AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.ACASPRINGNATIVE_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.ACASPRINGNATIVE_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.ACASPRINGNATIVE_AZURE_SUBSCRIPTION_ID }}
 
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
           appSourcePath: ${{ github.workspace }}/code/spring-boot-telemetry
           registryUrl: nativetelemetry.azurecr.io
-          registryUsername: ${{ secrets.SAKRIEMANATIVESPRING_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.SAKRIEMANATIVESPRING_REGISTRY_PASSWORD }}
+          registryUsername: ${{ secrets.ACASPRINGNATIVE_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ACASPRINGNATIVE_REGISTRY_PASSWORD }}
           containerAppName: sakriema-native-spring
           resourceGroup: sakriema-graalvm
           imageToBuild: nativetelemetry.azurecr.io/spring-boot-telemetry-veggies:${{ github.sha }}
-          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.DATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}'
+          environmentVariables: 'SPRING_DATASOURCE_URL=${{ secrets.PDATABASE_URL }} SPRING_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} SPRING_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} APPLICATIONINSIGHTS_CONNECTION_STRING=$${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}'
           _buildArgumentsKey_: |
             _buildArgumentsValues_
-
 

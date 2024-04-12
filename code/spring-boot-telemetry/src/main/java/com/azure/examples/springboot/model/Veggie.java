@@ -1,26 +1,39 @@
-package com.azure.examples.quarkus.data;
+package com.azure.examples.springboot.model;
 
-public class VeggieItem {
-  private String id;
+import jakarta.persistence.*;
 
+@Entity
+public class Veggie {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @Column(nullable = false)
   private String name;
 
+  @Column(length = 2000)
   private String description;
 
-  public VeggieItem(String id, String name, String description) {
+  public Veggie(Long id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
   }
 
-  public VeggieItem() {
+  public Veggie(String name, String description) {
+    this.name = name;
+    this.description = description;
   }
 
-  public static VeggieItemBuilder builder() {
-    return new VeggieItemBuilder();
+  public Veggie() {
   }
 
-  public String getId() {
+  public static VeggieBuilder builder() {
+    return new VeggieBuilder();
+  }
+
+  public Long getId() {
     return this.id;
   }
 
@@ -32,7 +45,7 @@ public class VeggieItem {
     return this.description;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -45,13 +58,13 @@ public class VeggieItem {
   }
 
   public String toString() {
-    return "VeggieItem(id=" + this.getId() + ", name=" + this.getName() + ", description=" + this.getDescription() + ")";
+    return "Veggie(id=" + this.getId() + ", name=" + this.getName() + ", description=" + this.getDescription() + ")";
   }
 
   public boolean equals(final Object o) {
     if (o == this) return true;
-    if (!(o instanceof VeggieItem)) return false;
-    final VeggieItem other = (VeggieItem) o;
+    if (!(o instanceof Veggie)) return false;
+    final Veggie other = (Veggie) o;
     if (!other.canEqual((Object) this)) return false;
     final Object this$id = this.getId();
     final Object other$id = other.getId();
@@ -60,7 +73,7 @@ public class VeggieItem {
   }
 
   protected boolean canEqual(final Object other) {
-    return other instanceof VeggieItem;
+    return other instanceof Veggie;
   }
 
   public int hashCode() {
@@ -71,35 +84,35 @@ public class VeggieItem {
     return result;
   }
 
-  public static class VeggieItemBuilder {
-    private String id;
+  public static class VeggieBuilder {
+    private Long id;
     private String name;
     private String description;
 
-    VeggieItemBuilder() {
+    VeggieBuilder() {
     }
 
-    public VeggieItemBuilder id(String id) {
+    public VeggieBuilder id(Long id) {
       this.id = id;
       return this;
     }
 
-    public VeggieItemBuilder name(String name) {
+    public VeggieBuilder name(String name) {
       this.name = name;
       return this;
     }
 
-    public VeggieItemBuilder description(String description) {
+    public VeggieBuilder description(String description) {
       this.description = description;
       return this;
     }
 
-    public VeggieItem build() {
-      return new VeggieItem(this.id, this.name, this.description);
+    public Veggie build() {
+      return new Veggie(this.id, this.name, this.description);
     }
 
     public String toString() {
-      return "VeggieItem.VeggieItemBuilder(id=" + this.id + ", name=" + this.name + ", description=" + this.description + ")";
+      return "Veggie.VeggieBuilder(id=" + this.id + ", name=" + this.name + ", description=" + this.description + ")";
     }
   }
 }

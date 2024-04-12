@@ -1,13 +1,13 @@
-package com.azure.examples.quarkus.data;
+package com.azure.examples.springboot.data;
 
 public class VeggieItem {
-  private String id;
+  private Long id;
 
   private String name;
 
   private String description;
 
-  public VeggieItem(String id, String name, String description) {
+  public VeggieItem(Long id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -20,7 +20,7 @@ public class VeggieItem {
     return new VeggieItemBuilder();
   }
 
-  public String getId() {
+  public Long getId() {
     return this.id;
   }
 
@@ -32,7 +32,7 @@ public class VeggieItem {
     return this.description;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -72,14 +72,14 @@ public class VeggieItem {
   }
 
   public static class VeggieItemBuilder {
-    private String id;
+    private Long id;
     private String name;
     private String description;
 
     VeggieItemBuilder() {
     }
 
-    public VeggieItemBuilder id(String id) {
+    public VeggieItemBuilder id(Long id) {
       this.id = id;
       return this;
     }
