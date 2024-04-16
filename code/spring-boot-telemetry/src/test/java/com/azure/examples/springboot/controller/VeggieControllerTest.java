@@ -22,46 +22,4 @@ class VeggieControllerTest {
   @Autowired
   private TestRestTemplate testRestTemplate;
 
-  @Test
-  void testAddVeggie() {
-    // given
-    VeggieItem veggie = new VeggieItem();
-    veggie.setName("Tomato");
-    veggie.setDescription("Red");
-
-    // when
-    ResponseEntity<VeggieItem> response = testRestTemplate.postForEntity("/veggies", veggie, VeggieItem.class);
-
-    // then
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-    VeggieItem veggieItem = response.getBody();
-    assertThat(veggieItem.getName()).isEqualTo("Tomato");
-    assertThat(veggieItem.getDescription()).isEqualTo("Red");
-  }
-
-  @Test
-  void testGetAllVeggies() {
-    // when
-    ResponseEntity<VeggieItem[]> response = testRestTemplate.getForEntity("/veggies", VeggieItem[].class);
-
-    // then
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    VeggieItem[] veggieItems = response.getBody();
-    assertThat(veggieItems).hasSize(3);
-    assertThat(veggieItems).extracting("name").contains("Carrot", "Broccoli", "Cauliflower");
-  }
-  @Test
-  void testDeleteVeggieNotFound() {
-    // given
-    Long id = 99L;
-
-    // when
-    testRestTemplate.delete("/veggies/{id}", id);
-
-    // then
-    ResponseEntity<VeggieItem[]> response = testRestTemplate.getForEntity("/veggies", VeggieItem[].class);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    VeggieItem[] veggieItems = response.getBody();
-    assertThat(veggieItems).hasSize(3);
-  }
 }

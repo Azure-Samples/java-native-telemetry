@@ -8,7 +8,7 @@ COPY pom.xml .
 COPY src src
 
 # compile the native image
-RUN --mount=type=cache,target=/root/.m2 /apache-maven-3.9.6/bin/mvn clean native:compile -Pnative -DskipTests
+RUN --mount=type=cache,target=/root/.m2 /apache-maven-3.9.6/bin/mvn clean native:compile -Pnative
 
 FROM alpine
 EXPOSE 8080
