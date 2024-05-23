@@ -4,19 +4,19 @@ name: Trigger auto deployment for spring-native-otel
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ add-monitoring ]
+    branches:
+      [ main ]
     paths:
     - 'code/spring-boot-telemetry/**'
     - '.github/workflows/spring-native-otel-AutoDeployTrigger-f3913371-eedb-47f9-b97b-efa659b130a7.yml'
 
-  # Allow manual trigger 
-  workflow_dispatch:      
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
 
@@ -34,7 +34,7 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/code/spring-boot-telemetry 
+          appSourcePath: ${{ github.workspace }}/code/spring-boot-telemetry
           registryUrl: nativetelemetry.azurecr.io
           registryUsername: ${{ secrets.SPRINGNATIVEOTEL_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.SPRINGNATIVEOTEL_REGISTRY_PASSWORD }}

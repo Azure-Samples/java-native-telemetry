@@ -5,7 +5,7 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches:
-      [ final ]
+      [ main ]
     paths:
     - 'code/quarkus-telemetry/quarkus-telemetry-superhero/**'
     - '.github/workflows/quarkus-native-monitoring-AutoDeployTrigger-cd1d418e-9e7d-4855-bcfa-dc4948f26827.yml'
