@@ -25,7 +25,7 @@ RUN chmod 775 /work /work/application \
 EXPOSE 8080
 USER 1001
 
-CMD ["./application", "-Dquarkus.http.host=0.0.0.0""]
+CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
 
 # Build on project root: docker build  --ulimit nofile=5000:5000 -t quarkus-telemetry-vegetable .
 # Run: docker run -i --rm -p 8080:8080 quarkus-telemetry-vegetable
