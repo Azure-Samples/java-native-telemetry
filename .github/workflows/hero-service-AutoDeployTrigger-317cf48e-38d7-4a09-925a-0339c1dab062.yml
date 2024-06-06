@@ -41,6 +41,7 @@ jobs:
           containerAppName: hero-service
           resourceGroup: native-telemetry
           imageToBuild: nativeregistry.azurecr.io/hero-service:${{ github.sha }}
+          environmentVariables: 'QUARKUS_DATASOURCE_JDBC_URL=${{ secrets.DATABASE_URL_SUPER }} QUARKUS_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} QUARKUS_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} QUARKUS_OTEL_AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING=${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}'
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
