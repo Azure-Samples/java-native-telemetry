@@ -1,0 +1,48 @@
+name: Trigger auto deployment for quarkus-native-monitoring
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches:
+      [ main ]
+    paths:
+    - 'code/quarkus-telemetry/quarkus-telemetry-superhero/**'
+    - '.github/workflows/quarkus-native-monitoring-AutoDeployTrigger-cd1d418e-9e7d-4855-bcfa-dc4948f26827.yml'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.QUARKUSNATIVEMONITORING_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.QUARKUSNATIVEMONITORING_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.QUARKUSNATIVEMONITORING_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/code/quarkus-telemetry/quarkus-telemetry-superhero/
+          registryUrl: nativetelemetry.azurecr.io
+          registryUsername: ${{ secrets.QUARKUSNATIVEMONITORING_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.QUARKUSNATIVEMONITORING_REGISTRY_PASSWORD }}
+          containerAppName: quarkus-native-monitoring
+          resourceGroup: sakriema-graalvm
+          imageToBuild: nativetelemetry.azurecr.io/quarkus-native-monitoring:${{ github.sha }}
+          environmentVariables: 'QUARKUS_DATASOURCE_JDBC_URL=${{ secrets.DATABASE_URL_SUPER }} QUARKUS_DATASOURCE_USERNAME=${{ secrets.DATABASE_USERNAME }} QUARKUS_DATASOURCE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} QUARKUS_OTEL_AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING=${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}'
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
