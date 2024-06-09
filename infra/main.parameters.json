@@ -7,6 +7,18 @@
       },
       "location": {
         "value": "${AZURE_LOCATION}"
+      },
+      "principalId": {
+        "value": "${AZURE_PRINCIPAL_ID}"
+      },      
+      "postgresAdminPassword": {
+        "value": "$(secretOrRandomPassword ${AZURE_KEY_VAULT_NAME} postgres-admin-password)"
+      },
+      "quarkusAppExists": {
+        "value": "${SERVICE_QUARKUS_RESOURCE_EXISTS=false}"
+      },
+      "springBootAppExists": {
+        "value": "${SERVICE_SPRING_BOOT_RESOURCE_EXISTS=false}"
       }
     }
 }
