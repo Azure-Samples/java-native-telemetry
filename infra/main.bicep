@@ -81,6 +81,10 @@ param quarkusAppExists bool = false
 
 /* Spring Boot Telemetry */
 
+@maxLength(32)
+@description('Name of the SpringBoot Telemetry Container App to deploy. If not specified, a name will be generated. The maximum length is 32 characters.')
+param springBootContainerAppName string = ''
+
 @description('Set if the SpringBoot Telemetry Container aAp already exists.')
 param springBootAppExists bool = false
 
@@ -113,6 +117,7 @@ var _logAnalyticsName = !empty(logAnalyticsWorkspaceName) ? logAnalyticsWorkspac
 var _applicationInsightsName = !empty(applicationInsightsName) ? applicationInsightsName : take('${abbreviations.insightsComponents}${environmentName}', 255)
 var _applicationInsightsDashboardName = !empty(applicationInsightsDashboardName) ? applicationInsightsDashboardName : take('${abbreviations.portalDashboards}${environmentName}', 160)
 var _quarkusContainerAppName = !empty(quarkusContainerAppName) ? quarkusContainerAppName : take('${abbreviations.appContainerApps}quarkus-${environmentName}', 32)
+var _springBootContainerAppName = !empty(springBootContainerAppName) ? springBootContainerAppName : take('${abbreviations.appContainerApps}spring-book-${environmentName}', 32)
 var _postgresFlexibleServerName = !empty(postgresFlexibleServerName) ? postgresFlexibleServerName : take(toLower('${abbreviations.dBforPostgreSQLServers}${take(environmentName, 44)}-${resourceToken}'), 63)
 var _keyVaultName = !empty(keyVaultName) ? keyVaultName : take('${abbreviations.keyVaultVaults}${take(alphaNumericEnvironmentName, 8)}${resourceToken}', 24)
 var _keyVaultSecrets = [
@@ -155,6 +160,21 @@ module quarkus './app/quarkus.bicep' = {
     containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
     containerRegistryName: containerRegistry.outputs.name
     exists: quarkusAppExists
+  }
+}
+
+module springBoot './app/spring-boot.bicep' = {
+  name: 'spring-boot'
+  scope: resourceGroup
+  params: {
+    name: _springBootContainerAppName
+    location: location
+    tags: tags
+    identityName: _springBootContainerAppName
+    applicationInsightsName: monitoring.outputs.applicationInsightsName
+    containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
+    containerRegistryName: containerRegistry.outputs.name
+    exists: springBootAppExists
   }
 }
 
@@ -271,6 +291,8 @@ output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
 @description('Container registry endpoint.')
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = containerRegistry.outputs.loginServer
 
-//@description('Quarkus application URI.')
+@description('Quarkus application URI.')
 output QUARKUS_SERVICE_URI string = quarkus.outputs.SERVICE_QUARKUS_URI
 
+@description('SpringBoot application URI.')
+output SPRING_BOOT_SERVICE_URI string = springBoot.outputs.SERVICE_SPRING_BOOT_URI
