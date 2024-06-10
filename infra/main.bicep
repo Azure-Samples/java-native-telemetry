@@ -186,6 +186,7 @@ module springBoot './app/spring-boot.bicep' = {
       username: postgresAdminUsername
     }
     keyVaultName: keyVault.name
+    superHeroUrl: quarkus.outputs.SERVICE_QUARKUS_URI
     exists: springBootAppExists
   }
 }
@@ -214,6 +215,7 @@ module keyVault './core/security/keyvault.bicep' = {
   }
 }
 
+/* Give access to the keyvault to the current identity */
 module principalKeyVaultAccess './core/security/keyvault-access.bicep' = {
   name: 'keyvault-access-${principalId}'
   scope: resourceGroup

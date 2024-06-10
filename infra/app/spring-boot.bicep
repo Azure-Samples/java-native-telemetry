@@ -34,6 +34,9 @@ param databaseConfig databaseConfigType
 @description('Name of the Key Vault that contains the secrets.')
 param keyVaultName string
 
+@description('URL of the super hero service to call.')
+param superHeroUrl string
+
 @description('Flag that indicates whether the container app already exists or not. This is used in container app upsert to set the image name to the value of the existing container apps image name.')
 param exists bool
 
@@ -65,6 +68,14 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
   name: keyVaultName 
 }
 
+module springBootKeyVaultAccess '../core/security/keyvault-access.bicep' = {
+  name: 'keyvault-access-${springBootIdentity.name}'
+  params: {
+    keyVaultName: keyVault.name
+    principalId: springBootIdentity.properties.principalId
+  }
+}
+
 module springBoot '../core/host/container-app-upsert.bicep' = {
     name: '${serviceName}-container-app'
     params: {
@@ -90,6 +101,10 @@ module springBoot '../core/host/container-app-upsert.bicep' = {
           secretRef: 'postgres-admin-password'
         }
         {
+          name: 'CLIENT_SUPERHERO_URL'
+          value: superHeroUrl
+        }
+        {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: applicationInsights.properties.ConnectionString
         }
@@ -97,12 +112,15 @@ module springBoot '../core/host/container-app-upsert.bicep' = {
       secrets: [
         {
           name: 'postgres-admin-password'
-          keyVaultUrl: '${keyVault.properties.vaultUri}/secrets/postgres-admin-password'
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/postgres-admin-password'
           identity: springBootIdentity.id
         }
       ]
-      targetPort: 80
+      targetPort: 8080
     }
+    dependsOn: [
+      springBootKeyVaultAccess
+    ]    
 }
 
 /******************************************************************************/

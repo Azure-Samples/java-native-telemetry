@@ -65,6 +65,14 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
   name: keyVaultName 
 }
 
+module quarkusKeyVaultAccess '../core/security/keyvault-access.bicep' = {
+  name: 'keyvault-access-${quarkusIdentity.name}'
+  params: {
+    keyVaultName: keyVault.name
+    principalId: quarkusIdentity.properties.principalId
+  }
+}
+
 module quarkus '../core/host/container-app-upsert.bicep' = {
     name: '${serviceName}-container-app'
     params: {
@@ -97,12 +105,15 @@ module quarkus '../core/host/container-app-upsert.bicep' = {
       secrets: [
         {
           name: 'postgres-admin-password'
-          keyVaultUrl: '${keyVault.properties.vaultUri}/secrets/postgres-admin-password'
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/postgres-admin-password'
           identity: quarkusIdentity.id
         }
       ]
-      targetPort: 80
+      targetPort: 8080
     }
+    dependsOn: [
+      quarkusKeyVaultAccess
+    ]
 }
 
 /******************************************************************************/

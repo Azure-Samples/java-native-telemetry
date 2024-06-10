@@ -9,7 +9,7 @@ name: azd-starter
 services:
   quarkus:
     language: java
-    project: code/quarkus-telemetry/quarkus-telemetry-vegetable
+    project: code/quarkus-telemetry/quarkus-telemetry-superhero
     host: containerapp
     docker:
       path: Dockerfile
