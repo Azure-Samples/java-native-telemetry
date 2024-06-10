@@ -17,7 +17,7 @@ param containerMaxReplicas int = 10
 param containerMemory string = '1.0Gi'
 
 @description('The minimum number of replicas to run. Must be at least 1.')
-@minValue(1)
+@minValue(0)
 param containerMinReplicas int = 1
 
 @description('The name of the container')
@@ -56,8 +56,7 @@ param identityName string = ''
 param imageName string = ''
 
 @description('The secrets required for the container')
-@secure()
-param secrets object = {}
+param secrets array = []
 
 @description('The environment variables for the container')
 param env array = []
