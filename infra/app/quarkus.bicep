@@ -1,8 +1,8 @@
 targetScope = 'resourceGroup'
 
-/* -------------------------------------------------------------------------- */
+/******************************************************************************/
 /*                                 PARAMETERS                                 */
-/* -------------------------------------------------------------------------- */
+/******************************************************************************/
 
 @description('Name of the container app.')
 param name string
@@ -28,8 +28,29 @@ param containerAppsEnvironmentName string
 @description('Name of the existing container registry that will be used by the container app.')
 param containerRegistryName string
 
+@description('Database connection configuration information.')
+param databaseConfig databaseConfigType
+
+@description('Name of the Key Vault that contains the secrets.')
+param keyVaultName string
+
 @description('Flag that indicates whether the container app already exists or not. This is used in container app upsert to set the image name to the value of the existing container apps image name.')
 param exists bool
+
+/******************************************************************************/
+/*                                   TYPES                                    */
+/******************************************************************************/
+
+type databaseConfigType = {
+  hostname: string
+  name: string
+  username: string
+  port: int?
+}
+
+/******************************************************************************/
+/*                                 RESOURCES                                  */
+/******************************************************************************/
 
 resource quarkusIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: identityName
@@ -38,6 +59,10 @@ resource quarkusIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: applicationInsightsName
+}
+
+resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
+  name: keyVaultName 
 }
 
 module quarkus '../core/host/container-app-upsert.bicep' = {
@@ -53,14 +78,36 @@ module quarkus '../core/host/container-app-upsert.bicep' = {
       containerRegistryName: containerRegistryName
       env: [
         {
-          // TODO
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          name: 'QUARKUS_DATASOURCE_JDBC_URL'
+          value: 'jdbc:postgresql://${databaseConfig.hostname}:${databaseConfig.?port ?? 5432}/${databaseConfig.name}'
+        }
+        {
+          name: 'QUARKUS_DATASOURCE_USERNAME'
+          value: databaseConfig.username
+        }
+        {
+          name: 'QUARKUS_DATASOURCE_PASSWORD'
+          secretRef: 'postgres-admin-password'
+        }
+        {
+          name: 'QUARKUS_OTEL_AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: applicationInsights.properties.ConnectionString
+        }
+      ]
+      secrets: [
+        {
+          name: 'postgres-admin-password'
+          keyVaultUrl: '${keyVault.properties.vaultUri}/secrets/postgres-admin-password'
+          identity: quarkusIdentity.id
         }
       ]
       targetPort: 80
     }
 }
+
+/******************************************************************************/
+/*                                  OUTPUTS                                   */
+/******************************************************************************/
 
 @description('ID of the service principal that is used by the container app to pull image from the container registry.')
 output SERVICE_QUARKUS_IDENTITY_PRINCIPAL_ID string = quarkusIdentity.properties.principalId

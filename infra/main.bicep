@@ -159,6 +159,12 @@ module quarkus './app/quarkus.bicep' = {
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
     containerRegistryName: containerRegistry.outputs.name
+    databaseConfig: {
+      name: 'quarkusdb'
+      hostname: postgresServer.outputs.POSTGRES_DOMAIN_NAME
+      username: postgresAdminUsername
+    }
+    keyVaultName: keyVault.name
     exists: quarkusAppExists
   }
 }
@@ -174,6 +180,12 @@ module springBoot './app/spring-boot.bicep' = {
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
     containerRegistryName: containerRegistry.outputs.name
+    databaseConfig: {
+      name: 'springbootdb'
+      hostname: postgresServer.outputs.POSTGRES_DOMAIN_NAME
+      username: postgresAdminUsername
+    }
+    keyVaultName: keyVault.name
     exists: springBootAppExists
   }
 }
@@ -261,7 +273,9 @@ module postgresServer 'core/database/postgresql/flexibleserver.bicep' = {
     version: '16'
     administratorLogin: postgresAdminUsername
     administratorLoginPassword: postgresAdminPassword
-    databaseNames: [postgresDatabaseName]
+    databaseNames: [
+      'quarkusdb', 'springbootdb'
+    ]
     allowAzureIPsFirewall: true
   }
 }

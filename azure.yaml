@@ -9,9 +9,14 @@ name: azd-starter
 services:
   quarkus:
     language: java
-    project: code/quarkus-telemetry
+    project: code/quarkus-telemetry/quarkus-telemetry-vegetable
     host: containerapp
+    docker:
+      path: Dockerfile
   spring-boot:
     language: java
     project: code/spring-boot-telemetry
     host: containerapp
+    docker:
+      path: Dockerfile
+
