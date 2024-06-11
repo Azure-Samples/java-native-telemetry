@@ -52,6 +52,15 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.opentelemetry.exporter</groupId>
+      <artifactId>quarkus-opentelemetry-exporter-azure</artifactId>
+      <version>3.8.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.opentelemetry.instrumentation</groupId>
+      <artifactId>opentelemetry-jdbc</artifactId>
+    </dependency>
 
     <!--        TESTS      -->
 
