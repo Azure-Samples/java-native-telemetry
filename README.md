@@ -11,4 +11,14 @@ Deploy the sample to Azure Container Apps with `azd`.
  azd provision
  azd up
 ```
- 
+
+The Application Map in Azure Application Insights will look like this:
+
+[!Application Map](application-map.png)
+
+And give you traces like:
+
+[!End to End Transaction - Trace](e2e-transaction.png)
+
+Delete all resources with `azd down` afterwards.
+

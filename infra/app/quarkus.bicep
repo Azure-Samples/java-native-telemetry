@@ -109,7 +109,7 @@ module quarkus '../core/host/container-app-upsert.bicep' = {
           identity: quarkusIdentity.id
         }
       ]
-      targetPort: 8080
+      targetPort: 8081
     }
     dependsOn: [
       quarkusKeyVaultAccess
