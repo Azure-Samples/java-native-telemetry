@@ -90,7 +90,7 @@ module springBoot '../core/host/container-app-upsert.bicep' = {
       env: [
         {
           name: 'SPRING_DATASOURCE_URL'
-          value: 'jdbc:otel:postgresql://${databaseConfig.hostname}:${databaseConfig.?port ?? 5432}/${databaseConfig.name}'
+          value: 'jdbc:postgresql://${databaseConfig.hostname}:${databaseConfig.?port ?? 5432}/${databaseConfig.name}'
         }
         {
           name: 'SPRING_DATASOURCE_USERNAME'
