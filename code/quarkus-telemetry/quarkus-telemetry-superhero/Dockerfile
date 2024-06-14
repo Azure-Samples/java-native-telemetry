@@ -22,10 +22,10 @@ RUN chmod 775 /work /work/application \
   && chmod -R "g+rwX" /work \
   && chown -R 1001:root /work
 
-EXPOSE 8080
+EXPOSE 8081
 USER 1001
 
 CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
 
 # Build on project root: docker build --ulimit nofile=5000:5000 -t quarkus-telemetry-superhero .
-# Run: docker run -i --rm -p 8081:8080 quarkus-telemetry-superhero
+# Run: docker run -i --rm -p 8081:8081 quarkus-telemetry-superhero
