@@ -14,7 +14,7 @@ param location string = resourceGroup().location
 param tags object = {}
 
 @description('Name of the service. This name is used to add "azd-service-name" tag to the tags for the container app. Default value is "srping-boot". If you change this value, make sure to change the name of the service in "azure.yaml" file as well.')
-param serviceName string = 'spring-boot'
+param serviceName string
 
 @description('Name of the identity that will be created and used by the container app to pull image from the container registry.')
 param identityName string

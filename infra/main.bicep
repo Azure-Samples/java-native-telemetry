@@ -59,10 +59,6 @@ param applicationInsightsDashboardName string = ''
 @description('Name of the PostgreSQL flexible server to deploy. If not specified, a name will be generated. The name is global and must be unique within Azure. The maximum length is 63 characters. It contains only lowercase letters, numbers and hyphens, and cannot start nor end with a hyphen.')
 param postgresFlexibleServerName string = ''
 
-@maxLength(63)
-@description('Name of the PostgreSQL flexible server database to deploy.')
-param postgresDatabaseName string = 'database'
-
 @description('Name of the PostgreSQL admin user.')
 param postgresAdminUsername string = 'pgadmin'
 
@@ -96,16 +92,22 @@ var abbreviations = loadJsonContent('./abbreviations.json')
 
 // tags that should be applied to all resources.
 var tags = {
-  // Tag all resources with the environment name.
   'azd-env-name': environmentName
 }
 
 /******************************* Resource Names *******************************/
 
 
+// Name of the service defined in azure.yaml
+// A tag named azd-service-name with this value should be applied to the service host resource, such as:
+//   tags: union(tags, { 'azd-service-name': apiServiceName })
+var quarkusServiceName = 'quarkus'
+var springBootServiceName = 'spring-boot'
+
+var quarkusDbName = '${quarkusServiceName}db'
+var springBootDbName = '${springBootServiceName}db'
+
 // Generate a unique token to be used in naming resources.
-// Remove linter suppression after using.
-#disable-next-line no-unused-vars
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 
 @description('Name of the environment with only alphanumeric characters. Used for resource names that require alphanumeric characters only.')
@@ -116,7 +118,7 @@ var _containerRegistryName = !empty(containerRegistryName) ? containerRegistryNa
 var _logAnalyticsName = !empty(logAnalyticsWorkspaceName) ? logAnalyticsWorkspaceName : take('${abbreviations.operationalInsightsWorkspaces}${environmentName}', 63)
 var _applicationInsightsName = !empty(applicationInsightsName) ? applicationInsightsName : take('${abbreviations.insightsComponents}${environmentName}', 255)
 var _applicationInsightsDashboardName = !empty(applicationInsightsDashboardName) ? applicationInsightsDashboardName : take('${abbreviations.portalDashboards}${environmentName}', 160)
-var _quarkusContainerAppName = !empty(quarkusContainerAppName) ? quarkusContainerAppName : take('${abbreviations.appContainerApps}quarkus-${environmentName}', 32)
+var _quarkusContainerAppName = !empty(quarkusContainerAppName) ? quarkusContainerAppName : take('${abbreviations.appContainerApps}${quarkusServiceName}-${environmentName}', 32)
 var _springBootContainerAppName = !empty(springBootContainerAppName) ? springBootContainerAppName : take('${abbreviations.appContainerApps}spring-boot-${environmentName}', 32)
 var _postgresFlexibleServerName = !empty(postgresFlexibleServerName) ? postgresFlexibleServerName : take(toLower('${abbreviations.dBforPostgreSQLServers}${take(environmentName, 44)}-${resourceToken}'), 63)
 var _keyVaultName = !empty(keyVaultName) ? keyVaultName : take('${abbreviations.keyVaultVaults}${take(alphaNumericEnvironmentName, 8)}${resourceToken}', 24)
@@ -126,16 +128,6 @@ var _keyVaultSecrets = [
     value: postgresAdminPassword
   }
 ]
-// Name of the service defined in azure.yaml
-// A tag named azd-service-name with this value should be applied to the service host resource, such as:
-//   Microsoft.Web/sites for appservice, function
-// Example usage:
-//   tags: union(tags, { 'azd-service-name': apiServiceName })
-#disable-next-line no-unused-vars
-var quarkusServiceName = 'quarkus'
-
-#disable-next-line no-unused-vars
-var springBootServiceName = 'spring-boot'
 
 /******************************************************************************/
 /*                                 RESOURCES                                  */
@@ -149,10 +141,11 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 }
 
 module quarkus './app/quarkus.bicep' = {
-  name: 'quarkus'
+  name: quarkusServiceName
   scope: resourceGroup
   params: {
     name: _quarkusContainerAppName
+    serviceName: quarkusServiceName
     location: location
     tags: tags
     identityName: _quarkusContainerAppName
@@ -160,20 +153,21 @@ module quarkus './app/quarkus.bicep' = {
     containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
     containerRegistryName: containerRegistry.outputs.name
     databaseConfig: {
-      name: 'quarkusdb'
+      name: quarkusDbName
       hostname: postgresServer.outputs.POSTGRES_DOMAIN_NAME
       username: postgresAdminUsername
     }
-    keyVaultName: keyVault.name
+    keyVaultName: keyVault.outputs.name
     exists: quarkusAppExists
   }
 }
 
 module springBoot './app/spring-boot.bicep' = {
-  name: 'spring-boot'
+  name: springBootServiceName
   scope: resourceGroup
   params: {
     name: _springBootContainerAppName
+    serviceName: springBootServiceName
     location: location
     tags: tags
     identityName: _springBootContainerAppName
@@ -181,11 +175,11 @@ module springBoot './app/spring-boot.bicep' = {
     containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
     containerRegistryName: containerRegistry.outputs.name
     databaseConfig: {
-      name: 'springbootdb'
+      name: springBootDbName
       hostname: postgresServer.outputs.POSTGRES_DOMAIN_NAME
       username: postgresAdminUsername
     }
-    keyVaultName: keyVault.name
+    keyVaultName: keyVault.outputs.name
     superHeroUrl: quarkus.outputs.SERVICE_QUARKUS_URI
     exists: springBootAppExists
   }
@@ -205,7 +199,7 @@ module containerAppsEnvironment 'core/host/container-apps-environment.bicep' = {
 }
 
 module keyVault './core/security/keyvault.bicep' = {
-  name: _keyVaultName
+  name: 'keyVault'
   scope: resourceGroup
   params: {
     name: _keyVaultName
@@ -276,7 +270,7 @@ module postgresServer 'core/database/postgresql/flexibleserver.bicep' = {
     administratorLogin: postgresAdminUsername
     administratorLoginPassword: postgresAdminPassword
     databaseNames: [
-      'quarkusdb', 'springbootdb'
+      quarkusDbName, springBootDbName
     ]
     allowAzureIPsFirewall: true
   }
@@ -286,22 +280,15 @@ module postgresServer 'core/database/postgresql/flexibleserver.bicep' = {
 /*                                  OUTPUTS                                   */
 /******************************************************************************/
 
-// Add outputs from the deployment here, if needed.
-//
-// This allows the outputs to be referenced by other bicep deployments in the deployment pipeline,
-// or by the local machine as a way to reference created resources in Azure for local development.
-// Secrets should not be added here.
-//
 // Outputs are automatically saved in the local azd environment .env file.
 // To see these outputs, run `azd env get-values`,  or `azd env get-values --output json` for json output.
-
 @description('Location where all resources were installed.')
 output AZURE_LOCATION string = location
 
 @description('Azure Tenant ID.')
 output AZURE_TENANT_ID string = tenant().tenantId
 
-@description('Azure Key Vault name. Is reused to fetch PostgreSQL password in main.parameters.json')
+@description('Azure Key Vault name. Reused to fetch PostgreSQL password in main.parameters.json')
 output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
 
 @description('Container registry endpoint.')
