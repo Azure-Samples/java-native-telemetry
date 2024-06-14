@@ -11,7 +11,6 @@ import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
 @Path("/heroes")
 @RegisterRestClient(configKey = "superhero-api")
-//@RegisterProvider(MeterProvider.class)
 public interface SuperHeroClient {
 
     @POST
