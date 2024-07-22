@@ -17,6 +17,10 @@ In these projects it will automatically download and start a PostgreSQL DB.
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
+Using CodeSpaces, please make sure to add the Port 8080 for the vegetables or 8081 for superheros application in the `PORTS` section. Open the included `Simple Browser` by clicking on the `Preview in Editor` icon.
+
+![Screenshot Add Port and Open in Simple Browser](/docs/assets/quarkus-add-port-open-browser.png)
+
 ## Packaging and running the application
 
 The application can be packaged using:
