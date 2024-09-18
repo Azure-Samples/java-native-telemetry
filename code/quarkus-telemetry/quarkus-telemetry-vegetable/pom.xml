@@ -14,7 +14,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.5.3</quarkus.platform.version>
+    <quarkus.platform.version>3.11.2</quarkus.platform.version>
     <rest-assured.version>5.4.0</rest-assured.version>
     <skipITs>true</skipITs>
     <compiler-plugin.version>3.12.1</compiler-plugin.version>
@@ -37,11 +37,11 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
+      <artifactId>quarkus-rest-client-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+      <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -58,7 +58,7 @@
     <dependency>
       <groupId>io.quarkiverse.opentelemetry.exporter</groupId>
       <artifactId>quarkus-opentelemetry-exporter-azure</artifactId>
-      <version>3.8.3.0</version>
+      <version>3.8.3.1</version>
     </dependency>
     <dependency>
       <groupId>io.opentelemetry.instrumentation</groupId>

@@ -11,13 +11,22 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
     },
+    "ghcr.io/devcontainers/features/java:1": {
+			"version": "21",
+			"installMaven": "true",
+			"installGradle": "false"
+		},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": 20,
+      "moby": "false",
+      "dockerDashComposeVersion": "v2"
+    },
     "ghcr.io/devcontainers/features/azure-cli:1": {
       "version": "latest",
       "installBicep": true
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/azure/azure-dev/azd:latest": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/azure/azure-dev/azd:latest": {}
   },
 
   // Configure tool-specific properties.
@@ -27,6 +36,7 @@
         "GitHub.vscode-github-actions",
         "ms-azuretools.azure-dev",
         "ms-azuretools.vscode-bicep",
+        "vscjava.vscode-java-pack",
         "ms-azuretools.vscode-docker"
       ]
     }

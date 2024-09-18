@@ -28,4 +28,4 @@ USER 1001
 CMD ["./application", "-Dquarkus.http.host=0.0.0.0"]
 
 # Build on project root: docker build --ulimit nofile=5000:5000 -t quarkus-telemetry-superhero .
-# Run: docker run -i --rm -p 8081:8080 quarkus-telemetry-superhero
+# Run: docker run -i --rm -p 8081:8081 quarkus-telemetry-superhero
