@@ -48,7 +48,7 @@ public class VeggieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteVeggie(@PathVariable("id") String id) {
+    public ResponseEntity<String> deleteVeggie(@PathVariable("id") Long id) {
         veggieService.deleteVeggie(id);
         return ResponseEntity.ok("Veggie deleted successfully");
     }
@@ -60,7 +60,7 @@ public class VeggieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VeggieItem> getVeggieById(@PathVariable("id") String id) {
+    public ResponseEntity<VeggieItem> getVeggieById(@PathVariable("id") Long id) {
         VeggieItem veggie = veggieService.getVeggieById(id);
         if (veggie != null) {
             return ResponseEntity.ok(veggie);
