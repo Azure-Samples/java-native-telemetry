@@ -5,6 +5,7 @@ This repository contains code demonstrating how to enable OpenTelemetry features
 * [Quarkus](./code/quarkus-telemetry/README.md)
 
 Setup the infrastructure, and deploy the sample to Azure Container Apps with [azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/).
+We'll make use of bicep files that you find and update [here](./infra). To provide Infrastructure as Code for Azure, Terraform or Bicep files are recommended. Learn more about Bicep [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep).
 
 ```bash
  # Login to Azure
