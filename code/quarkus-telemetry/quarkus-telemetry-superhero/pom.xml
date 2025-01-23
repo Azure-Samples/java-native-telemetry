@@ -20,7 +20,7 @@
     <skipITs>true</skipITs>
     <compiler-plugin.version>3.13.0</compiler-plugin.version>
     <surefire-plugin.version>3.5.2</surefire-plugin.version>
-    <quarkus-opentelemetry-exporter-azure.version>3.5.3.Final</quarkus-opentelemetry-exporter-azure.version>
+    <quarkus-opentelemetry-exporter-azure.version>3.16.2.0</quarkus-opentelemetry-exporter-azure.version>
   </properties>
 
   <dependencyManagement>
