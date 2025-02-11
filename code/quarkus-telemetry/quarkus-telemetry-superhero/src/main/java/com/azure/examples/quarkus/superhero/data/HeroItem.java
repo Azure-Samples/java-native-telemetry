@@ -1,4 +1,3 @@
-
 package com.azure.examples.quarkus.superhero.data;
 
 import com.azure.examples.quarkus.superhero.model.CapeType;

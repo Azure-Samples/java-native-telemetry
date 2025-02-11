@@ -5,9 +5,7 @@ import jakarta.ws.rs.POST;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import jakarta.ws.rs.Path;
-
-import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
-
+import jakarta.ws.rs.core.MediaType;
 
 @Path("/heroes")
 @RegisterRestClient(configKey = "superhero-api")
@@ -15,6 +13,6 @@ public interface SuperHeroClient {
 
     @POST
     @Path("/veggie")
-    @Consumes(TEXT_PLAIN)
+    @Consumes(MediaType.TEXT_PLAIN)
     void notifyAdd(String veggieName);
 }

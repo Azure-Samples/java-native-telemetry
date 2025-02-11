@@ -15,7 +15,9 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
+import org.jboss.resteasy.reactive.RestResponse;
+import jakarta.ws.rs.core.Response.Status;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -23,94 +25,91 @@ import org.jboss.logging.Logger;
 import java.util.List;
 import java.util.Optional;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
-import static jakarta.ws.rs.core.Response.Status.CREATED;
-import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
-import static jakarta.ws.rs.core.Response.Status.NO_CONTENT;
 import static java.util.Arrays.asList;
 
+
 @Path("/veggies")
-@Produces(APPLICATION_JSON)
-@Consumes(APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class VeggieResource {
 
-  private static final Logger log = Logger.getLogger(VeggieResource.class);
+    private static final Logger log = Logger.getLogger(VeggieResource.class);
 
-  @Inject
-  EntityManager manager;
+    @Inject
+    EntityManager manager;
 
-  @Inject
-  Config config;
+    @Inject
+    Config config;
 
-  @RestClient
-  SuperHeroClient superHeroClient;
+    @RestClient
+    SuperHeroClient superHeroClient;
 
-  @POST
-  @Path("/init")
-  public Response provision() {
-    final VeggieNew carrot = VeggieNew.builder()
-      .name("Carrot")
-      .description("Root vegetable, usually orange")
-      .build();
-    final VeggieNew zucchini = VeggieNew.builder()
-      .name("Zucchini")
-      .description("Summer squash")
-      .build();
-    return Response.status(CREATED).entity(asList(
-      add(carrot),
-      add(zucchini))).build();
-  }
+    @POST
+    @Path("/init")
+    @Transactional
+    public RestResponse<List<VeggieItem>> provision() {
+        final VeggieNew tomato = VeggieNew.builder()
+            .name("Tomato")
+            .description("Red")
+            .build();
+        final VeggieNew eggplant = VeggieNew.builder()
+            .name("Eggplant")
+            .description("Purple")
+            .build();
 
-  @POST
-  @Transactional
-  public Response add(final VeggieNew veggieNew) {
-    return Response.status(CREATED).entity(addVeggie(veggieNew)).build();
-  }
+        return RestResponse.status(Status.CREATED, asList(addVeggie(tomato), addVeggie(eggplant)));
+    }
 
-  @DELETE
-  @Path("{id}")
-  @Transactional
-  public Response delete(final String veggieId) {
-    return find(veggieId)
-      .map(veggie -> {
-        manager.remove(veggie);
-        return Response.status(NO_CONTENT).build();
-      })
-      .orElse(Response.status(NOT_FOUND).build());
-  }
+    @POST
+    @Transactional
+    public RestResponse<VeggieItem> add(final VeggieNew veggieNew) {
+        return RestResponse.status(Status.CREATED, addVeggie(veggieNew));
+    }
 
-  @GET
-  public List<VeggieItem> list() {
-    log.info("someone asked for a list");
-    return manager.createQuery("SELECT l FROM Veggie l").getResultList();
-  }
+    @DELETE
+    @Path("{id}")
+    @Transactional
+    public RestResponse<Object> delete(final String veggieId) {
+        return find(veggieId)
+            .map(veggie -> {
+                manager.remove(veggie);
+                return RestResponse.status(Status.NO_CONTENT);
+            })
+            .orElse(RestResponse.status(Status.NOT_FOUND));
+    }
 
-  private Optional<VeggieItem> find(final String veggieId) {
-    return Optional.ofNullable(manager.find(Veggie.class, veggieId))
-      .map(veggie -> VeggieItem.builder()
-        .id(veggie.getId())
-        .name(veggie.getName())
-        .description(veggie.getDescription())
-        .build());
-  }
+    @GET
+    public List<VeggieItem> list() {
+        log.info("someone asked for a list");
+        return manager.createQuery("SELECT l FROM Veggie l").getResultList();
+    }
 
-  private VeggieItem addVeggie(final VeggieNew veggieNew) {
-    final Veggie veggieToAdd = Veggie.builder()
-      .name(veggieNew.getName())
-      .description((veggieNew.getDescription()))
-      .build();
+    private Optional<VeggieItem> find(final String veggieId) {
+        return Optional.ofNullable(manager.find(Veggie.class, veggieId))
+            .map(veggie -> VeggieItem.builder()
+                .id(veggie.getId())
+                .name(veggie.getName())
+                .description(veggie.getDescription())
+                .build());
+    }
 
-    final Veggie addedveggie = manager.merge(veggieToAdd);
+    private VeggieItem addVeggie(final VeggieNew veggieNew) {
+        final Veggie veggieToAdd = Veggie.builder()
+            .name(veggieNew.getName())
+            .description((veggieNew.getDescription()))
+            .build();
 
-    final VeggieItem veggieItem = VeggieItem.builder()
-      .id(addedveggie.getId())
-      .name(addedveggie.getName())
-      .description(addedveggie.getDescription())
-      .build();
+        final Veggie addedveggie = manager.merge(veggieToAdd);
 
-    superHeroClient.notifyAdd(addedveggie.getName());
+        final VeggieItem veggieItem = VeggieItem.builder()
+            .id(addedveggie.getId())
+            .name(addedveggie.getName())
+            .description(addedveggie.getDescription())
+            .build();
 
-    return veggieItem;
-  }
+        superHeroClient.notifyAdd(addedveggie.getName());
+
+        return veggieItem;
+    }
 }

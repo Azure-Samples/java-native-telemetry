@@ -21,7 +21,7 @@ services:
       - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://db:5432/demo
       - QUARKUS_DATASOURCE_USERNAME=demo
       - QUARKUS_DATASOURCE_PASSWORD=demo
-      - QUARKUS_OTEL_AZURE_APPLICATIONINSIGHTS=InstrumentationKey=00000000-0000-0000-0000-000000000000
+      - QUARKUS_OTEL_AZURE_APPLICATIONINSIGHTS=InstrumentationKey=e6b68f56-3dea-4789-acb2-a1ffa1aacfc4;IngestionEndpoint=https://japaneast-1.in.applicationinsights.azure.com/;LiveEndpoint=https://japaneast.livediagnostics.monitor.azure.com/;ApplicationId=30235274-26b7-43e0-8378-75cf1374978d
     command:
       |
       /bin/bash -c "./application -Dquarkus.http.host=0.0.0.0 -Dquarkus.debug.print-startup-times=true"

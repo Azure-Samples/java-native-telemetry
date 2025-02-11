@@ -15,7 +15,8 @@ lerna-debug.log*
 # Deployment
 *.env
 .azure
-
+*.txt
+*.iml
 # DB Storage
 .qdrant/
 
@@ -25,6 +26,7 @@ lerna-debug.log*
 # IDE
 .vscode/settings.json
 .vscode/launch.json
+.idea/
 
 # Java compiled files
 *.class

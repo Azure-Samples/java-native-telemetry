@@ -12,15 +12,15 @@ services:
       retries: 5
 
   veggies:
-    image: localhost/quarkus-telemetry-vegetable:latest
+    image: localhost/QuarkusVeggieService:native
     ports:
       - 8080:8080
     environment:
       - DATABASE_URL=jdbc:postgresql://db:5432/demo
       - DATABASE_USER=demo
       - DATABASE_PASSWORD=demo
-      - SUPERHERO_URL=http://localhost:8081
-      - APPLICATIONINSIGHTS_CONNECTION_STRING=http://localhost:4317
+      - SUPERHERO_URL=https://quarkus-superhero.icyforest-1789839e.japaneast.azurecontainerapps.io
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=e6b68f56-3dea-4789-acb2-a1ffa1aacfc4;IngestionEndpoint=https://japaneast-1.in.applicationinsights.azure.com/;LiveEndpoint=https://japaneast.livediagnostics.monitor.azure.com/;ApplicationId=30235274-26b7-43e0-8378-75cf1374978d
     depends_on:
       db:
         condition: service_healthy

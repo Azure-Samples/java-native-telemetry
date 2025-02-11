@@ -36,8 +36,8 @@ public class VeggieService {
     }
 
     @Transactional
-    public void deleteVeggie(Long id) {
-        veggieRepository.deleteById(String.valueOf(id));
+    public void deleteVeggie(String id) {
+        veggieRepository.deleteById(id);
     }
 
     public List<VeggieItem> getAllVeggies() {
@@ -46,8 +46,8 @@ public class VeggieService {
                 .toList();
     }
 
-    public VeggieItem getVeggieById(Long id) {
-        return veggieRepository.findById(String.valueOf(id))
+    public VeggieItem getVeggieById(String id) {
+        return veggieRepository.findById(id)
                 .map(veggie -> new VeggieItem(veggie.getId(), veggie.getName(), veggie.getDescription()))
                 .orElse(null);
     }

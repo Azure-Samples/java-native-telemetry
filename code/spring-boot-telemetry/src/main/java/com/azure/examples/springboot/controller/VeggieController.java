@@ -1,5 +1,6 @@
 package com.azure.examples.springboot.controller;
 
+import com.azure.examples.springboot.model.Veggie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,8 +32,10 @@ public class VeggieController {
 
     @PostMapping("/init")
     public ResponseEntity<String> initializeDatabase() {
-        veggieService.initializeDatabase();
-        return ResponseEntity.ok("Database initialized with 3 veggie items");
+      this.addVeggie(VeggieItem.builder().name("Carrot").description("Orange").build());
+      this.addVeggie(VeggieItem.builder().name("Broccoli").description("Green").build());
+      this.addVeggie(VeggieItem.builder().name("Cauliflower").description("White").build());
+      return ResponseEntity.ok("Database initialized with 3 veggie items");
     }
 
     @PostMapping

@@ -14,20 +14,18 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
 import org.jboss.logging.Logger;
+import jakarta.ws.rs.core.Response.Status;
+import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
-
-import static jakarta.transaction.Transactional.TxType.REQUIRED;
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
-import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
-import static jakarta.ws.rs.core.Response.Status.CREATED;
-import static java.util.stream.Collectors.toList;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Path("/heroes")
-@Produces(APPLICATION_JSON)
-@Consumes(APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class HeroResource {
 
@@ -37,21 +35,21 @@ public class HeroResource {
   HeroRepository repository;
 
   @GET
-  public List<HeroItem> list(@QueryParam("veggieName") final String originalName,
+  public List<HeroItem> list(@QueryParam("veggieName") final Optional<String> originalName,
                              @QueryParam("pageIndex") int pageIndex) {
-    if (originalName == null || originalName.isBlank()) {
+    if (originalName.isEmpty()) {
       log.info("someone asked for a list for index: " + pageIndex);
       return repository.listHeroes(pageIndex).stream()
         .map(this::getHeroItem)
-        .collect(toList());
+        .collect(Collectors.toList());
     } else {
-      return findByOriginalName(originalName);
+      return findByOriginalName(originalName.get());
     }
   }
 
   @GET
   @Path("/i-want-a-raise")
-  @Consumes(TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN)
   public String generateException() {
     log.info("Someone asked for a raise...");
     throw new ConferenceException("This is a generated exception, just for you!");
@@ -59,9 +57,9 @@ public class HeroResource {
 
   @POST
   @Path("/veggie")
-  @Consumes(TEXT_PLAIN)
-  @Transactional(REQUIRED)
-  public Response add(final String veggieName) {
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Transactional(Transactional.TxType.REQUIRED)
+  public RestResponse<HeroItem> add(final String veggieName) {
     final Hero hero = Hero.builder()
       .name("SUPER-" + veggieName)
       .originalName(veggieName)
@@ -71,20 +69,19 @@ public class HeroResource {
     final Hero createdHero = repository.create(hero);
     log.info("hero created: " + createdHero);
 
-    return Response.status(CREATED)
-      .entity(HeroItem.builder()
-        .id(createdHero.getId())
-        .name(createdHero.getName())
-        .originalName(createdHero.getOriginalName())
-        .capeType(createdHero.getCapeType())
-        .build())
-      .build();
+    return RestResponse.status(Status.CREATED,
+      HeroItem.builder()
+      .id(createdHero.getId())
+      .name(createdHero.getName())
+      .originalName(createdHero.getOriginalName())
+      .capeType(createdHero.getCapeType())
+      .build());
   }
 
   private List<HeroItem> findByOriginalName(final String originalName) {
     return repository.findByOriginalName(originalName).stream()
       .map(this::getHeroItem)
-      .collect(toList());
+      .collect(Collectors.toList());
   }
 
   private HeroItem getHeroItem(Hero h) {

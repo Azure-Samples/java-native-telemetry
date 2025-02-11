@@ -1,4 +1,3 @@
-
 package com.azure.examples.quarkus.superhero.model;
 
 public enum CapeType {
