@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "environmentName": {
+        "value": "${AZURE_ENV_NAME}"
+      },
+      "location": {
+        "value": "${AZURE_LOCATION}"
+      },
+      "principalId": {
+        "value": "${AZURE_PRINCIPAL_ID}"
+      },      
+      "postgresAdminPassword": {
+        "value": "$(secretOrRandomPassword ${AZURE_KEY_VAULT_NAME} postgres-admin-password)"
+      },
+      "quarkusAppExists": {
+        "value": "${SERVICE_QUARKUS_RESOURCE_EXISTS=false}"
+      },
+      "springBootAppExists": {
+        "value": "${SERVICE_SPRING_BOOT_RESOURCE_EXISTS=false}"
+      }
+    }
+}

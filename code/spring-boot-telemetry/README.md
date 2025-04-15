@@ -2,13 +2,16 @@
 
 ## Start the application locally with docker compose
 
+Run `docker compose up` to start PostgreSQL locally and build the app locally within docker.
+
+
+## Configure the Database Connection
+
 Store the postgresql database connection details in an .env file at 'code/spring-boot-telemetry/.env'.
 
 DATABASE_PASSWORD=db_password
 DATABASE_URL=db_url
 DATABASE_USERNAME=db_admin
-
-Run `docker compose up` to start PostgreSQL locally and build the app locally within docker.
 
 ## Run the application in a JVM mode
 
@@ -16,6 +19,7 @@ Run `docker compose up` to start PostgreSQL locally and build the app locally wi
 mvn package
 cd target
 java -jar spring-boot-telemetry.jar
+
 ```
 
 ## Run the application with GraalVM native
